@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Mapp from "./Map";
+import ReactMapGL from "react-map-gl";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ReactMapGL
+      initialViewState={{
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 14,
+      }}
+      style={{ width: "100vw", height: "100vh" }}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+    />
   );
+  /*const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/users")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUsers(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  return (
+    <div>
+      {users.map((user) => {
+        const { name, age } = user;
+        return (
+          <div>
+            <p>{name}</p>
+            <p>{age}</p>
+          </div>
+        );
+      })}
+    </div>
+  );*/
 }
 
 export default App;
