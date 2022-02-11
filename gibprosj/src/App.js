@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from "react";
+import Mapp from "./Map";
+import ReactMapGL from "react-map-gl";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  return (
+    <ReactMapGL
+      initialViewState={{
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 14,
+      }}
+      style={{ width: "100vw", height: "100vh" }}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+    />
+  );
+  /*const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/users")
@@ -27,7 +40,7 @@ function App() {
         );
       })}
     </div>
-  );
+  );*/
 }
 
 export default App;
