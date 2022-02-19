@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactMapGL from "react-map-gl";
 import './App.css';
 import Input from "./input/Input";
 import MapContainer from "./map/Map";
