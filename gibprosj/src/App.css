@@ -1,0 +1,37 @@
+* {
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+/* APP */
+
+.app {
+    display: flex;
+}
+
+/* HEADER */
+
+
+
+/* HEADER END */
+
+/* INPUT */
+
+.input-container {
+    width: 25%;
+    height: 100vh;
+    background-color: aqua;
+}
+
+/* INPUT END */
+
+/* MAP */
+
+.map-container {
+    width: 75%;
+    height: 100vh;
+
+}
+
+/* MAP END */
