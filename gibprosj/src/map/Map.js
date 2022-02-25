@@ -7,7 +7,6 @@ const MAPBOX_TOKEN =
 
 function MapContainer() {
   
-
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [longitude, setLongitude] = useState(10.4);
