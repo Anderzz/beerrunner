@@ -1,6 +1,7 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import * as turf from '@turf/turf';
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -36,24 +37,33 @@ function MapContainer() {
 
     map.current.on('load', createRouteLayer);
 
-    map.current.on('click', (event) => {
-        const coord = event.lngLat
-        console.log(event.lngLat);
-        const newPoint = `${coord.lng},${coord.lat}`
-        setRoutePoints(oldArray => [...oldArray, newPoint])
-        console.log(routePoints);
+    fetchData("Gløshaugen")
+    .then((response) => {
+      console.log(response)
+      const coord = response.geometry.coordinates;
+      const newPoint = `${coord[0]},${coord[0]}`
+      setRoutePoints(oldArray => [...oldArray, newPoint])
+    })
 
+    fetchData("Nidarosdomen")
+    .then((response) => {
+      console.log(response)
+      const coord = response.geometry.coordinates;
+      const newPoint = `${coord[0]},${coord[0]}`
+      setRoutePoints(oldArray => [...oldArray, newPoint])
+    })
+
+    fetchData("Dragvoll")
+    .then((response) => {
+      console.log(response)
+      const coord = response.geometry.coordinates;
+      const newPoint = `${coord[0]},${coord[0]}`
+      setRoutePoints(oldArray => [...oldArray, newPoint])
     })
 
     // Clean up on unmount
     return () => map.current.remove();
   }, []);
-
-  useEffect(() => {
-      if (routePoints.length === 3) {
-        createRoute(routePoints);
-      }
-  }, [routePoints]);
 
 
   const createRouteLayer = () => {
@@ -97,6 +107,39 @@ function MapContainer() {
     })
   }
 
+  //Geocoder
+  // const fetchData = useCallback(() => {
+  //   const geocodingClient = mbxGeocoding({
+  //     accessToken: mapboxgl.accessToken,
+  //   });
+
+  //   return geocodingClient
+  //     .forwardGeocode({
+  //       query: "Rema 1000 Brumunddal",
+  //       limit: 5,
+  //       types: ["poi"],
+  //       language: ["nb"],
+  //     })
+  //     .send()
+  //     .then((response) => {
+  //       const match = response.body;
+  //       const coordinates = match.features[0].geometry.coordinates;
+  //       const placeName = match.features[0].place_name;
+  //       const center = match.features[0].center;
+  //       return {
+  //         type: "Feature",
+  //         center: center,
+  //         geometry: {
+  //           type: "Point",
+  //           coordinates: coordinates,
+  //         },
+  //         properties: {
+  //           description: placeName,
+  //         },
+  //       }
+  //     })
+  // })
+
   return (
     <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
@@ -108,6 +151,38 @@ export default MapContainer;
 
 
 function OptimizationAPI(coord) {
-
+    console.log(coord)
     return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]};${coord[2]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`
+}
+
+function fetchData(query) {
+  const geocodingClient = mbxGeocoding({
+    accessToken: mapboxgl.accessToken,
+  });
+
+  return geocodingClient
+      .forwardGeocode({
+        query: query,
+        limit: 5,
+        types: ["poi"],
+        language: ["nb"],
+      })
+      .send()
+      .then((response) => {
+        const match = response.body;
+        const coordinates = match.features[0].geometry.coordinates;
+        const placeName = match.features[0].place_name;
+        const center = match.features[0].center;
+        return {
+          type: "Feature",
+          center: center,
+          geometry: {
+            type: "Point",
+            coordinates: coordinates,
+          },
+          properties: {
+            description: placeName,
+          },
+        }
+      })
 }
