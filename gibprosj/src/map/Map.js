@@ -50,7 +50,7 @@ function MapContainer() {
   }, []);
 
   useEffect(() => {
-      if (routePoints.length === 2) {
+      if (routePoints.length === 3) {
         createRoute(routePoints);
       }
   }, [routePoints]);
@@ -92,6 +92,7 @@ function MapContainer() {
         const routeGeoJSON = turf.featureCollection([
             turf.feature(data.trips[0].geometry)
         ]);
+        console.log(data)
         map.current.getSource('route').setData(routeGeoJSON);
     })
   }
@@ -105,7 +106,8 @@ function MapContainer() {
 
 export default MapContainer;
 
+
 function OptimizationAPI(coord) {
 
-    return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]}?overview=full&steps=true&geometries=geojson&source=first&access_token=${mapboxgl.accessToken}`
+    return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]};${coord[2]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`
 }
