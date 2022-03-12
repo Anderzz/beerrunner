@@ -15,31 +15,25 @@ function MapContainer(props) {
   const [latitude, setLatitude] = useState(63.42862774248482);
   const [zoom, setZoom] = useState(11);
 
-  useEffect(() => {
-
-    let points = []
+  useEffect(async () => {
+    let points = [];
 
     try {
-      fetchData(props.inputs[0]).then((response) => {
+      await fetchData(props.inputs[0]).then((response) => {
         const coord = response.geometry.coordinates;
         const newPoint = `${coord[0]},${coord[1]}`;
-        points.push(newPoint)
-      })
-      .then(
-        fetchData(props.inputs[1]).then((response) => {
-          const coord = response.geometry.coordinates;
-          const newPoint = `${coord[0]},${coord[1]}`;
-          points.push(newPoint)
-        })
-      )
-      .then(
-        createRoute(points)
-      )
-        
-    } catch (error) {
-      console.log(error)
-    }
+        points.push(newPoint);
+      });
+      await fetchData(props.inputs[1]).then((response) => {
+        const coord = response.geometry.coordinates;
+        const newPoint = `${coord[0]},${coord[1]}`;
+        points.push(newPoint);
+      });
 
+      createRoute(points);
+    } catch (error) {
+      console.log(error);
+    }
   }, [props.inputs]);
 
   // initialize map when componenet mounts
@@ -122,8 +116,11 @@ export default MapContainer;
 
 //Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coord) {
-  console.log(coord);
-  console.log(coord[0]);
+  let coordinates = [];
+  for (const i in coord) {
+    coordinates.push(coord[i]);
+  }
+  console.log(coordinates);
   return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
