@@ -12,9 +12,9 @@ function MapContainer() {
   
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [longitude, setLongitude] = useState(10.4);
-  const [latitude, setLatitude] = useState(64);
-  const [zoom, setZoom] = useState(10);
+  const [longitude, setLongitude] = useState(10.39489098946541);
+  const [latitude, setLatitude] = useState(63.42862774248482);
+  const [zoom, setZoom] = useState(11);
 
   //The points which the route will consist of
   const [routePoints, setRoutePoints] = useState([]);
@@ -37,19 +37,26 @@ function MapContainer() {
 
     map.current.on('load', createRouteLayer);
 
+    // Adding markers on click
+    map.current.on('click', (event) => {
+      const marker = new mapboxgl.Marker({
+        draggable: true
+      }).setLngLat(event.lngLat)
+        .addTo(map.current);
+
+    })
+
     fetchData("Gløshaugen")
     .then((response) => {
-      console.log(response)
       const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[0]}`
+      const newPoint = `${coord[0]},${coord[1]}`
       setRoutePoints(oldArray => [...oldArray, newPoint])
     })
 
     fetchData("Nidarosdomen")
     .then((response) => {
-      console.log(response)
       const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[0]}`
+      const newPoint = `${coord[0]},${coord[1]}`
       setRoutePoints(oldArray => [...oldArray, newPoint])
     })
 
@@ -57,7 +64,7 @@ function MapContainer() {
     .then((response) => {
       console.log(response)
       const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[0]}`
+      const newPoint = `${coord[0]},${coord[1]}`
       setRoutePoints(oldArray => [...oldArray, newPoint])
     })
 
@@ -95,53 +102,19 @@ function MapContainer() {
     );
   }
 
-  const createRoute = (coordinates) => {
-    fetch(OptimizationAPI(coordinates))
+  const createRoute = () => {
+    fetch(OptimizationAPI(routePoints))
     .then(response => response.json())
     .then(data => {
         const routeGeoJSON = turf.featureCollection([
             turf.feature(data.trips[0].geometry)
         ]);
-        console.log(data)
         map.current.getSource('route').setData(routeGeoJSON);
     })
   }
 
-  //Geocoder
-  // const fetchData = useCallback(() => {
-  //   const geocodingClient = mbxGeocoding({
-  //     accessToken: mapboxgl.accessToken,
-  //   });
-
-  //   return geocodingClient
-  //     .forwardGeocode({
-  //       query: "Rema 1000 Brumunddal",
-  //       limit: 5,
-  //       types: ["poi"],
-  //       language: ["nb"],
-  //     })
-  //     .send()
-  //     .then((response) => {
-  //       const match = response.body;
-  //       const coordinates = match.features[0].geometry.coordinates;
-  //       const placeName = match.features[0].place_name;
-  //       const center = match.features[0].center;
-  //       return {
-  //         type: "Feature",
-  //         center: center,
-  //         geometry: {
-  //           type: "Point",
-  //           coordinates: coordinates,
-  //         },
-  //         properties: {
-  //           description: placeName,
-  //         },
-  //       }
-  //     })
-  // })
-
   return (
-    <div className="map-wrapper">
+    <div className="map-wrapper" onClick={createRoute}>
       <div ref={mapContainer} className="map-container" />
     </div>
   );
@@ -150,10 +123,13 @@ function MapContainer() {
 export default MapContainer;
 
 
+//Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coord) {
     console.log(coord)
     return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]};${coord[2]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`
 }
+
+
 
 function fetchData(query) {
   const geocodingClient = mbxGeocoding({
