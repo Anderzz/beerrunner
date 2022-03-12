@@ -12,6 +12,20 @@
 
 /* HEADER */
 
+#input-fields {
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+#header {
+  font-size: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-bottom: 2px solid black;
+}
+
 /* HEADER END */
 
 /* INPUT */

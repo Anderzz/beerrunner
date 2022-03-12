@@ -29,32 +29,35 @@ function Input(props) {
       setHidden(true);
     }
   };
-  
+
   //onClick={hideMenuOnClick}
 
   return (
-    <div id="input-container" >
-      <TextField
-        id="outlined-basic"
-        label="From"
-        variant="outlined"
-        value={from}
-        onChange={handleFromChange}
-      />
-      <TextField
-        id="outlined-basic"
-        label="To"
-        variant="outlined"
-        value={to}
-        onChange={handleToChange}
-      />
-      <Button
-        variant="outlined"
-        startIcon={<SearchIcon />}
-        onClick={handleSearchOnClick}
-      >
-        Search
-      </Button>
+    <div id="input-container">
+      <div id="header">AtCtB</div>
+      <div id="input-fields">
+        <TextField
+          id="outlined-basic"
+          label="From"
+          variant="outlined"
+          value={from}
+          onChange={handleFromChange}
+        />
+        <TextField
+          id="outlined-basic"
+          label="To"
+          variant="outlined"
+          value={to}
+          onChange={handleToChange}
+        />
+        <Button
+          variant="outlined"
+          startIcon={<SearchIcon />}
+          onClick={handleSearchOnClick}
+        >
+          Search
+        </Button>
+      </div>
     </div>
   );
 }
