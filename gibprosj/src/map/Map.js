@@ -19,16 +19,26 @@ function MapContainer(props) {
     let points = [];
 
     try {
-      await fetchData(props.inputs[0]).then((response) => {
-        const coord = response.geometry.coordinates;
-        const newPoint = `${coord[0]},${coord[1]}`;
-        points.push(newPoint);
-      });
-      await fetchData(props.inputs[1]).then((response) => {
-        const coord = response.geometry.coordinates;
-        const newPoint = `${coord[0]},${coord[1]}`;
-        points.push(newPoint);
-      });
+      // trengs egt ikke
+      // await fetchData(props.inputs[0]).then((response) => {
+      //   const coord = response.geometry.coordinates;
+      //   const newPoint = `${coord[0]},${coord[1]}`;
+      //   points.push(newPoint);
+      // });
+      // await fetchData(props.inputs[1]).then((response) => {
+      //   const coord = response.geometry.coordinates;
+      //   const newPoint = `${coord[0]},${coord[1]}`;
+      //   points.push(newPoint);
+      // });
+
+      //for each point, add them to the list
+      for (let i in props.inputs) {
+        await fetchData(props.inputs[i]).then((response) => {
+          const coord = response.geometry.coordinates;
+          const newPoint = `${coord[0]},${coord[1]}`;
+          points.push(newPoint);
+        });
+      }
 
       createRoute(points);
     } catch (error) {
@@ -115,11 +125,10 @@ function MapContainer(props) {
 export default MapContainer;
 
 //Returns the Optimization API string for coordinates "coord"
-function OptimizationAPI(coord) {
-  let coordinates = "";
-  coordinates = coord.join(";");
-  console.log(coordinates);
-  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordinates}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
+function OptimizationAPI(coordList) {
+  let coordString = "";
+  coordString = coordList.join(";");
+  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordString}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
 function fetchData(query) {
