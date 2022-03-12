@@ -4,9 +4,9 @@ import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 
 function Input(props) {
-  const [hidden, setHidden] = useState(false);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [hidden, setHidden] = useState(true);
+  const [from, setFrom] = useState("Gløshaugen");
+  const [to, setTo] = useState("Dragvoll");
 
   const handleFromChange = (event) => {
     setFrom(event.target.value);
@@ -29,9 +29,11 @@ function Input(props) {
       setHidden(true);
     }
   };
+  
   //onClick={hideMenuOnClick}
+
   return (
-    <div id="input-container">
+    <div id="input-container" >
       <TextField
         id="outlined-basic"
         label="From"

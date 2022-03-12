@@ -7,7 +7,6 @@ function App() {
   const [input, setInput] = useState([]);
   const sendDataToParent = (input) => {
     setInput(input);
-    console.log(input);
   };
 
   return (

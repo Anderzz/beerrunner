@@ -15,10 +15,33 @@ function MapContainer(props) {
   const [latitude, setLatitude] = useState(63.42862774248482);
   const [zoom, setZoom] = useState(11);
 
-  //The points which the route will consist of
-  const [routePoints, setRoutePoints] = useState([]);
+  useEffect(() => {
 
-  useEffect(() => {}, [props.inputs]);
+    let points = []
+
+    try {
+      fetchData(props.inputs[0]).then((response) => {
+        const coord = response.geometry.coordinates;
+        const newPoint = `${coord[0]},${coord[1]}`;
+        points.push(newPoint)
+      })
+      .then(
+        fetchData(props.inputs[1]).then((response) => {
+          const coord = response.geometry.coordinates;
+          const newPoint = `${coord[0]},${coord[1]}`;
+          points.push(newPoint)
+        })
+      )
+      .then(
+        createRoute(points)
+      )
+        
+    } catch (error) {
+      console.log(error)
+    }
+
+  }, [props.inputs]);
+
   // initialize map when componenet mounts
   useEffect(() => {
     map.current = new mapboxgl.Map({
@@ -43,25 +66,6 @@ function MapContainer(props) {
       })
         .setLngLat(event.lngLat)
         .addTo(map.current);
-    });
-
-    fetchData("Gløshaugen").then((response) => {
-      const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[1]}`;
-      setRoutePoints((oldArray) => [...oldArray, newPoint]);
-    });
-
-    fetchData("Nidarosdomen").then((response) => {
-      const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[1]}`;
-      setRoutePoints((oldArray) => [...oldArray, newPoint]);
-    });
-
-    fetchData("Dragvoll").then((response) => {
-      console.log(response);
-      const coord = response.geometry.coordinates;
-      const newPoint = `${coord[0]},${coord[1]}`;
-      setRoutePoints((oldArray) => [...oldArray, newPoint]);
     });
 
     // Clean up on unmount
@@ -96,7 +100,7 @@ function MapContainer(props) {
     );
   };
 
-  const createRoute = () => {
+  const createRoute = (routePoints) => {
     fetch(OptimizationAPI(routePoints))
       .then((response) => response.json())
       .then((data) => {
@@ -108,7 +112,7 @@ function MapContainer(props) {
   };
 
   return (
-    <div className="map-wrapper" onClick={createRoute}>
+    <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
     </div>
   );
@@ -119,7 +123,8 @@ export default MapContainer;
 //Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coord) {
   console.log(coord);
-  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]};${coord[2]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
+  console.log(coord[0]);
+  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
 function fetchData(query) {
