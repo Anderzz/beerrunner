@@ -6,7 +6,7 @@ import MapContainer from "./map/Map";
 function App() {
   return (
     <div className="app">
-      <Input />
+      <Input /> 
       <MapContainer />
     </div>
   );
