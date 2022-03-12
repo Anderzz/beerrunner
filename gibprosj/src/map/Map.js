@@ -116,12 +116,10 @@ export default MapContainer;
 
 //Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coord) {
-  let coordinates = [];
-  for (const i in coord) {
-    coordinates.push(coord[i]);
-  }
+  let coordinates = "";
+  coordinates = coord.join(";");
   console.log(coordinates);
-  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coord[0]};${coord[1]}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
+  return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordinates}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
 function fetchData(query) {
