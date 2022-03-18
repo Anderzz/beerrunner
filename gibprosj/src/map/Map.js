@@ -15,21 +15,13 @@ function MapContainer(props) {
   const [latitude, setLatitude] = useState(63.42862774248482);
   const [zoom, setZoom] = useState(11);
 
+
+
   useEffect(async () => {
+
     let points = [];
 
     try {
-      // trengs egt ikke
-      // await fetchData(props.inputs[0]).then((response) => {
-      //   const coord = response.geometry.coordinates;
-      //   const newPoint = `${coord[0]},${coord[1]}`;
-      //   points.push(newPoint);
-      // });
-      // await fetchData(props.inputs[1]).then((response) => {
-      //   const coord = response.geometry.coordinates;
-      //   const newPoint = `${coord[0]},${coord[1]}`;
-      //   points.push(newPoint);
-      // });
 
       //for each point, add them to the list
       for (let i in props.inputs) {
@@ -40,7 +32,9 @@ function MapContainer(props) {
         });
       }
 
+      //create a route out of the added points
       createRoute(points);
+
     } catch (error) {
       console.log(error);
     }
@@ -149,16 +143,6 @@ function fetchData(query) {
       const coordinates = match.features[0].geometry.coordinates;
       const placeName = match.features[0].place_name;
       const center = match.features[0].center;
-      return {
-        type: "Feature",
-        center: center,
-        geometry: {
-          type: "Point",
-          coordinates: coordinates,
-        },
-        properties: {
-          description: placeName,
-        },
-      };
+      return match
     });
 }

@@ -12,12 +12,8 @@
 
 /* HEADER */
 
-#input-fields {
-  margin-top: 20px;
-  margin-left: 10px;
-}
-
 #header {
+  width: 80%;
   font-size: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -31,7 +27,7 @@
 /* INPUT */
 
 #input-container {
-  width: 250px;
+  width: 300px;
   height: 100vh;
   background-color: white;
   z-index: 1000;
@@ -39,6 +35,36 @@
   transform: translateX(0px);
   -webkit-transition: 0.3s;
   transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#input-fields {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+#location-fields {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#stop-selectors {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  width: 100%;
+  height: 189px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
 /* INPUT END */
