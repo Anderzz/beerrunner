@@ -1,7 +1,6 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as turf from "@turf/turf";
-import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -21,15 +20,15 @@ function MapContainer(props) {
 
     let points = [];
 
+    console.log(props.inputs)
+
     try {
 
       //for each point, add them to the list
       for (let i in props.inputs) {
-        await fetchData(props.inputs[i]).then((response) => {
-          const coord = response.geometry.coordinates;
-          const newPoint = `${coord[0]},${coord[1]}`;
-          points.push(newPoint);
-        });
+        const coord_list = props.inputs[i].coord
+        const label = props.inputs[i].label
+        points.push(coord_list)
       }
 
       //create a route out of the added points
@@ -118,6 +117,7 @@ function MapContainer(props) {
 
 export default MapContainer;
 
+
 //Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coordList) {
   let coordString = "";
@@ -125,24 +125,3 @@ function OptimizationAPI(coordList) {
   return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordString}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
-function fetchData(query) {
-  const geocodingClient = mbxGeocoding({
-    accessToken: mapboxgl.accessToken,
-  });
-
-  return geocodingClient
-    .forwardGeocode({
-      query: query,
-      limit: 5,
-      types: ["poi"],
-      language: ["nb"],
-    })
-    .send()
-    .then((response) => {
-      const match = response.body;
-      const coordinates = match.features[0].geometry.coordinates;
-      const placeName = match.features[0].place_name;
-      const center = match.features[0].center;
-      return match
-    });
-}

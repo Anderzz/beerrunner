@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import VisibilityButton from "./VisibilityButton";
 
 //Mui stuff
 import TextField from "@mui/material/TextField";
@@ -27,7 +28,6 @@ function Input(props) {
   // Styling
   const classes = useStyles();
 
-  const [hidden, setHidden] = useState(true);
   const [location, setLocation] = useState("");
   const [destination, setDestination] = useState("");
   const [stop1, setStop1] = useState("");
@@ -59,7 +59,7 @@ function Input(props) {
         .forwardGeocode({
           query: event.target.value,
           limit: limit,
-          types: ["poi"],
+          types: ["poi", "address"],
           language: ["nb"],
         })
         .send()
@@ -94,13 +94,13 @@ function Input(props) {
         .forwardGeocode({
           query: event.target.value,
           limit: limit,
-          types: ["poi"],
+          types: ["poi", "address"],
           language: ["nb"],
         })
         .send()
         .then((response) => {
           const match = response.body;
-          
+          console.log(match)
           let matches = []
           for (let i = 0; i < match.features.length; i++) {
             const coordinates = match.features[i].geometry.coordinates;
@@ -132,123 +132,118 @@ function Input(props) {
     props.sendDataToParent([location, destination]);
   };
 
-  const hideMenuOnClick = () => {
-    if (hidden) {
-      const menu = document.getElementById("input-container");
-      menu.style.transform = "translateX(0)";
-      setHidden(false);
-    } else {
-      const menu = document.getElementById("input-container");
-      menu.style.transform = "translateX(-240px)";
-      setHidden(true);
-    }
-  };
-
-  //onClick={hideMenuOnClick}
-
   return (
     <div id="input-container">
-      <div id="header">
-        <h4>AtCtB</h4>
-      </div>
-      <div id="input-fields">
-        {/* LOCATION INPUTS */}
-        <div id="location-fields">
-          <Autocomplete
-            id="autocomplete-from"
-            disableClearable
-            freeSolo
-            options={locationQueryMatches}
-            onInputChange={handleLocationChange}
-            renderInput={(params) => 
-              <TextField 
-                {...params}
-                label="Location"
-              />}
-          />
-          <Autocomplete
-            id="autocomplete-to"
-            freeSolo
-            disableClearable
-            options={destinationQueryMatches}
-            onInputChange={handleDestinationChange}
-            renderInput={(params) => 
-              <TextField 
-                {...params}
-                label="Destination"
-              />}
-          
-          />
+      <div id="input-main-body">
+        <div id="header">
+          <h4>AtCtB</h4>
         </div>
-        {/* LOCATION INPUTS END */}
+        <div id="input-fields">
+          {/* LOCATION INPUTS */}
+          <div id="location-fields">
+            <Autocomplete
+              id="autocomplete-from"
+              disableClearable
+              freeSolo
+              options={locationQueryMatches}
+              onInputChange={handleLocationChange}
+              onChange={(event, newInput) => {
+                setLocation(newInput)
+              }}
+              renderInput={(params) => 
+                <TextField 
+                  {...params}
+                  label="Location"
+                />}
+            />
+            <Autocomplete
+              id="autocomplete-to"
+              freeSolo
+              disableClearable
+              options={destinationQueryMatches}
+              onInputChange={handleDestinationChange}
+              onChange={(event, newInput) => {
+                setDestination(newInput)
+              }}
+              renderInput={(params) => 
+                <TextField 
+                  {...params}
+                  label="Destination"
+                />}
+            
+            />
+          </div>
+          {/* LOCATION INPUTS END */}
 
-        {/* STOP SELECTORS */}
-        <div id="stop-selectors">
-        <FormControl fullWidth>
-          <InputLabel id="stop-1-label">Stop 1</InputLabel>
-          <Select 
-            labelId="stop-1-label"
-            id="stop-1"
-            value={stop1}
-            label="Stop 1"
-            onChange={handleStop1Change}
-            classes={{icon:classes.icon}}
+          {/* STOP SELECTORS */}
+          <div id="stop-selectors">
+          <FormControl fullWidth>
+            <InputLabel id="stop-1-label">Stop 1</InputLabel>
+            <Select 
+              labelId="stop-1-label"
+              id="stop-1"
+              value={stop1}
+              label="Stop 1"
+              onChange={handleStop1Change}
+              classes={{icon:classes.icon}}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
+              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
+              <MenuItem value="Clothing Store">Clothing Store</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel id="stop-2-label">Stop 2</InputLabel>
+            <Select 
+              labelId="stop-2-label"
+              id="stop-2"
+              value={stop2}
+              label="Stop 2"
+              onChange={handleStop2Change}
+              classes={{icon:classes.icon}}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
+              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
+              <MenuItem value="Retail Store">Clothing Store</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel id="stop-3-label">Stop 3</InputLabel>
+            <Select 
+              labelId="stop-3-label"
+              id="stop-3"
+              value={stop3}
+              label="Stop 3"
+              onChange={handleStop3Change}
+              classes={{icon:classes.icon}}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
+              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
+              <MenuItem value="Retail Store">Clothing Store</MenuItem>
+            </Select>
+          </FormControl>
+          </div>
+          {/* STOP SELECTORS END */}
+
+          <Button
+            variant="outlined"
+            startIcon={<SearchIcon />}
+            onClick={handleSearchOnClick}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-            <MenuItem value="Liqour Store">Liqour Store</MenuItem>
-            <MenuItem value="Clothing Store">Clothing Store</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="stop-2-label">Stop 2</InputLabel>
-          <Select 
-            labelId="stop-2-label"
-            id="stop-2"
-            value={stop2}
-            label="Stop 2"
-            onChange={handleStop2Change}
-            classes={{icon:classes.icon}}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-            <MenuItem value="Liqour Store">Liqour Store</MenuItem>
-            <MenuItem value="Retail Store">Clothing Store</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="stop-3-label">Stop 3</InputLabel>
-          <Select 
-            labelId="stop-3-label"
-            id="stop-3"
-            value={stop3}
-            label="Stop 3"
-            onChange={handleStop3Change}
-            classes={{icon:classes.icon}}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-            <MenuItem value="Liqour Store">Liqour Store</MenuItem>
-            <MenuItem value="Retail Store">Clothing Store</MenuItem>
-          </Select>
-        </FormControl>
+            Create Route
+          </Button>
         </div>
-        {/* STOP SELECTORS END */}
-
-        <Button
-          variant="outlined"
-          startIcon={<SearchIcon />}
-          onClick={handleSearchOnClick}
-        >
-          Create Route
-        </Button>
       </div>
+      <VisibilityButton />
     </div>
   );
 }
@@ -256,7 +251,7 @@ function Input(props) {
 // Styles for the select arrow icons
 const useStyles = makeStyles((theme) => ({
   icon: {
-      marginLeft: 210,
+      marginLeft: 190,
   }
 }));
 

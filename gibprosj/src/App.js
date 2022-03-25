@@ -4,6 +4,7 @@ import Input from "./input/Input";
 import MapContainer from "./map/Map";
 
 function App() {
+  
   const [input, setInput] = useState([]);
   const sendDataToParent = (input) => {
     setInput(input);
