@@ -7,13 +7,13 @@ class User(models.Model):
     name = models.CharField(max_length=50, blank=True)
     age = models.IntegerField(null=True, blank=True)
 
-grocery = "GROCERY"
-liquor = "LIQUOR"
-clothing = "CLOTHING"
+grocery = "Grocery Store"
+liquor = "Liquor Store"
+retail = "Retail Store"
 category_choices = (
-    (grocery, "GROCERY"),
-    (liquor, "LIQUOR"),
-    (clothing, "CLOTHING"),
+    (grocery, "Grocery Store"),
+    (liquor, "Liquor Store"),
+    (retail, "Retail Store"),
 )
 
 class Point(models.Model):
