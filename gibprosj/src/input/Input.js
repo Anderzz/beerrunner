@@ -100,8 +100,8 @@ function Input(props) {
         .send()
         .then((response) => {
           const match = response.body;
-          console.log(match)
           let matches = []
+
           for (let i = 0; i < match.features.length; i++) {
             const coordinates = match.features[i].geometry.coordinates;
             const placeName = match.features[i].place_name;
@@ -129,7 +129,9 @@ function Input(props) {
   }
 
   const handleSearchOnClick = () => {
-    props.sendDataToParent([location, destination]);
+
+    let points = [location, stop1, stop2, stop3, destination]
+    props.sendDataToParent(points);
   };
 
   return (
@@ -139,7 +141,7 @@ function Input(props) {
           <h4>AtCtB</h4>
         </div>
         <div id="input-fields">
-          {/* LOCATION INPUTS */}
+          {/* LOCATION/DESTINATION INPUTS */}
           <div id="location-fields">
             <Autocomplete
               id="autocomplete-from"
@@ -173,7 +175,7 @@ function Input(props) {
             
             />
           </div>
-          {/* LOCATION INPUTS END */}
+          {/* LOCATION/DESTINATION INPUTS END */}
 
           {/* STOP SELECTORS */}
           <div id="stop-selectors">

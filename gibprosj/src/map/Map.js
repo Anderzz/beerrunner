@@ -18,21 +18,22 @@ function MapContainer(props) {
 
   useEffect(async () => {
 
-    let points = [];
-
     console.log(props.inputs)
 
+    const location = props.inputs[0]
+    const destination = props.inputs[props.inputs.length-1]
+    
+    //Fetch stop data
+    const stop1_points = [[10.406350, 63.431460], [10.351890, 63.418000], [10.451030, 63.431000]]
+
+    console.log(location)
+    console.log(destination)
+    
+
     try {
-
-      //for each point, add them to the list
-      for (let i in props.inputs) {
-        const coord_list = props.inputs[i].coord
-        const label = props.inputs[i].label
-        points.push(coord_list)
-      }
-
+    
       //create a route out of the added points
-      createRoute(points);
+      // createRoute(points);
 
     } catch (error) {
       console.log(error);
@@ -98,6 +99,9 @@ function MapContainer(props) {
   };
 
   const createRoute = (routePoints) => {
+
+
+
     fetch(OptimizationAPI(routePoints))
       .then((response) => response.json())
       .then((data) => {
