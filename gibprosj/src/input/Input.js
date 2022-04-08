@@ -129,7 +129,6 @@ function Input(props) {
   }
 
   const handleSearchOnClick = () => {
-
     let points = [location, stop1, stop2, stop3, destination]
     props.sendDataToParent(points);
   };
@@ -193,8 +192,8 @@ function Input(props) {
                 <em>None</em>
               </MenuItem>
               <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
-              <MenuItem value="Clothing Store">Clothing Store</MenuItem>
+              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
+              <MenuItem value="Retail Store">Clothing Store</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth>
@@ -211,7 +210,7 @@ function Input(props) {
                 <em>None</em>
               </MenuItem>
               <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
+              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
               <MenuItem value="Retail Store">Clothing Store</MenuItem>
             </Select>
           </FormControl>
@@ -229,7 +228,7 @@ function Input(props) {
                 <em>None</em>
               </MenuItem>
               <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liqour Store">Liqour Store</MenuItem>
+              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
               <MenuItem value="Retail Store">Clothing Store</MenuItem>
             </Select>
           </FormControl>

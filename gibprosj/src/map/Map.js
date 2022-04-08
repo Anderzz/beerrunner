@@ -13,27 +13,35 @@ function MapContainer(props) {
   const [longitude, setLongitude] = useState(10.39489098946541);
   const [latitude, setLatitude] = useState(63.42862774248482);
   const [zoom, setZoom] = useState(11);
+  const [pointData, setPointData] = useState([]);
 
+  //Fetch point data
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/points/")
+    .then(response => response.json())
+    .then(data => {
+      setPointData(data);
+    })
+  }, [])
 
-
+  //Called whenever create route butten is pushed
   useEffect(async () => {
-
-    console.log(props.inputs)
 
     const location = props.inputs[0]
     const destination = props.inputs[props.inputs.length-1]
-    
-    //Fetch stop data
-    const stop1_points = [[10.406350, 63.431460], [10.351890, 63.418000], [10.451030, 63.431000]]
+    const category1 = props.inputs[1]
+    const category2 = props.inputs[2]
+    const category3 = props.inputs[3]
 
-    console.log(location)
-    console.log(destination)
-    
+    const stop1Points = pointData.filter(object => object.category === category1)
+    const stop2Points = pointData.filter(object => object.category === category2)
+    const stop3Points = pointData.filter(object => object.category === category3)
 
     try {
     
+      const points = [location, stop1Points, stop2Points, stop3Points, destination]
       //create a route out of the added points
-      // createRoute(points);
+      createRoute(points);
 
     } catch (error) {
       console.log(error);
@@ -57,11 +65,12 @@ function MapContainer(props) {
 
     map.current.on("load", createRouteLayer);
 
-    // Adding markers on click
+    //Adding markers on click
     map.current.on("click", (event) => {
       const marker = new mapboxgl.Marker({
         draggable: true,
       })
+        console.log(event)
         .setLngLat(event.lngLat)
         .addTo(map.current);
     });
@@ -98,11 +107,68 @@ function MapContainer(props) {
     );
   };
 
-  const createRoute = (routePoints) => {
+  const getBestPoint = async (routePoints) => {
+    const location_coord = routePoints[0].coord.join(",")
+    const destination_coord = routePoints[routePoints.length-1].coord.join(",")
+    const stop1Points = routePoints[1]
+
+    let bestPoint;
+    let bestRouteDuration;
+
+    for (let i = 0; i < stop1Points.length; i++) {
+      const point = stop1Points[i]
+      const coord = point.lng+","+point.lat
+
+      const api_coords = [location_coord, coord, destination_coord]
+      
+      await fetch(OptimizationAPI(api_coords))
+      .then((response) => response.json())
+      .then((data) => {
+
+        const routeDuration = data.trips[0].duration;
+
+        if (i === 0) {
+          bestRouteDuration = routeDuration
+          bestPoint = stop1Points[i]
+        }
+
+        else {
+          if (data.trips[0].duration < bestRouteDuration) {
+            bestRouteDuration = routeDuration
+            bestPoint = stop1Points[i]
+          }
+        }
+      });
+
+    }
+
+    const bestPointCoord = bestPoint.lng+","+bestPoint.lat;
+    const displayRoute = [location_coord, bestPointCoord,destination_coord]
+
+    return displayRoute
+  }
 
 
+  const createRoute = async (routePoints) => {
 
-    fetch(OptimizationAPI(routePoints))
+    const displayRoute = await getBestPoint(routePoints)
+
+    for await (const coordinates of displayRoute) {
+
+      const lng = coordinates.split(",")[0]
+      const lat = coordinates.split(",")[1]
+
+      const coordJSON = {
+        lng: lng, 
+        lat: lat
+      }
+
+      new mapboxgl.Marker({
+        draggable: false,
+      }).setLngLat(coordJSON).addTo(map.current);
+    }
+
+    fetch(OptimizationAPI(displayRoute))
       .then((response) => response.json())
       .then((data) => {
         const routeGeoJSON = turf.featureCollection([
