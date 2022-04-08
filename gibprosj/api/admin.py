@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import User, Point
 
-# Register your models here.
+myModels = [User, Point]
+admin.site.register(myModels)
