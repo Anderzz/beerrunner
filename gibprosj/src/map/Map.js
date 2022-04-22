@@ -1,6 +1,8 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useEffect, useRef } from "react";
 import * as turf from "@turf/turf";
+import WineLogo from "../static/images/Vinmonopolets_logo.jpg";
+import RemaLogo from "../static/images/rema1000_logo.png";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -32,7 +34,7 @@ function MapContainer(props) {
     const destination = props.inputs[props.inputs.length-1]
 
     try {
-    
+
       const points = [location, destination]
       //create a route out of the added points
       createRoute(points);
@@ -140,7 +142,7 @@ function MapContainer(props) {
       const coord = point.lng+","+point.lat
 
       const api_coords = [location_coord, coord, destination_coord]
-      
+
       await fetch(OptimizationAPI(api_coords))
       .then((response) => response.json())
       .then((data) => {
@@ -169,7 +171,7 @@ function MapContainer(props) {
       const coord = point.lng+","+point.lat
 
       const api_coords = [location_coord, coord, destination_coord]
-      
+
       await fetch(OptimizationAPI(api_coords))
       .then((response) => response.json())
       .then((data) => {
@@ -178,13 +180,13 @@ function MapContainer(props) {
 
         if (i === 0) {
           bestWineRouteDuration = routeDuration
-          bestWinePoint = pointData[i]
+          bestWinePoint = wineData[i]
         }
 
         else {
           if (data.trips[0].duration < bestWineRouteDuration) {
             bestWineRouteDuration = routeDuration
-            bestWinePoint = pointData[i]
+            bestWinePoint = wineData[i]
           }
         }
       });
@@ -196,6 +198,9 @@ function MapContainer(props) {
     const bestWinePointCoord = bestWinePoint.lng+","+bestWinePoint.lat;
     const displayRouteWine = [location_coord, bestWinePointCoord, destination_coord]
 
+    console.log(bestWinePointCoord)
+    console.log(displayRouteWine)
+
     //Returns optimal route for beer and wine runs
     return [displayRouteGrocery, displayRouteWine]
   }
@@ -203,30 +208,45 @@ function MapContainer(props) {
 
   const createRoute = async (routePoints) => {
 
-    const displayRoute = await getBestPoint(routePoints)
+    const displayRoutes = await getBestPoint(routePoints)
 
-    for await (const coordinates of displayRoute) {
+    const groceryRoute = displayRoutes[0]
+    const wineRoute = displayRoutes[1]
 
-      const lng = coordinates.split(",")[0]
-      const lat = coordinates.split(",")[1]
+    console.log(groceryRoute)
 
-      const coordJSON = {
-        lng: lng, 
-        lat: lat
-      }
+    // Add grocery marker
+    new mapboxgl.Marker(
+      CustomMarker("Dagligvarehandel")
+    ).setLngLat({
+      lat: groceryRoute[1].split(",")[1],
+      lng: groceryRoute[1].split(",")[0]
+    }).addTo(map.current);
 
-      new mapboxgl.Marker({
-        draggable: false,
-      }).setLngLat(coordJSON).addTo(map.current);
-    }
-
-    fetch(OptimizationAPI(displayRoute))
+    // Add wine marker
+    new mapboxgl.Marker(
+      CustomMarker("Vinmonopol")
+    ).setLngLat({
+      lat: wineRoute[1].split(",")[1],
+      lng: wineRoute[1].split(",")[0]
+    }).addTo(map.current);
+  
+    fetch(OptimizationAPI(displayRoutes[0]))
       .then((response) => response.json())
       .then((data) => {
         const routeGeoJSON = turf.featureCollection([
           turf.feature(data.trips[0].geometry),
         ]);
         map.current.getSource("route").setData(routeGeoJSON);
+      });
+
+    fetch(OptimizationAPI(displayRoutes[1]))
+      .then((response) => response.json())
+      .then((data) => {
+        const routeGeoJSON = turf.featureCollection([
+          turf.feature(data.trips[0].geometry),
+        ]);
+        map.current.getSource("vin-route").setData(routeGeoJSON);
       });
   };
 
@@ -240,10 +260,28 @@ function MapContainer(props) {
 export default MapContainer;
 
 
-//Returns the Optimization API string for coordinates "coord"
+// Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coordList) {
   let coordString = "";
   coordString = coordList.join(";");
   return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordString}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
+// Creates a custom marker
+function CustomMarker(type) {
+
+  const el = document.createElement('div');
+  el.className = "custom-marker";
+
+  if (type === "Dagligvarehandel") {
+    el.style.backgroundImage = "url(https://network.bellona.org/content/uploads/sites/2/2016/02/REMA-1000-logo-2-linjer_Farge-1024x641.png)";
+  }
+
+  else {
+    el.style.backgroundImage = "url(https://upload.wikimedia.org/wikipedia/commons/d/d8/Vinmonopolets_logo.jpg)"; 
+  }
+
+  return el;
+
+
+}
