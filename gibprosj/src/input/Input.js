@@ -4,13 +4,8 @@ import VisibilityButton from "./VisibilityButton";
 //Mui stuff
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from "@mui/material/Select";
-import MenuItem from '@mui/material/MenuItem';
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
-import { makeStyles } from '@material-ui/styles';
 
 //Mapbox stuff
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -26,13 +21,9 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 function Input(props) {
 
   // Styling
-  const classes = useStyles();
 
   const [location, setLocation] = useState("");
   const [destination, setDestination] = useState("");
-  const [stop1, setStop1] = useState("");
-  const [stop2, setStop2] = useState("");
-  const [stop3, setStop3] = useState("");
 
   const [ locationQueryMatches, setLocationQueryMatches ] = useState([]);
   const [ destinationQueryMatches, setDestinationQueryMatches ] = useState([]);
@@ -116,20 +107,8 @@ function Input(props) {
     }
   };
 
-  const handleStop1Change = (event) => {
-    setStop1(event.target.value);
-  }
-
-  const handleStop2Change = (event) => {
-    setStop2(event.target.value);
-  }
-
-  const handleStop3Change = (event) => {
-    setStop3(event.target.value);
-  }
-
   const handleSearchOnClick = () => {
-    let points = [location, stop1, stop2, stop3, destination]
+    let points = [location, destination]
     props.sendDataToParent(points);
   };
 
@@ -174,66 +153,7 @@ function Input(props) {
             
             />
           </div>
-          {/* LOCATION/DESTINATION INPUTS END */}
-
-          {/* STOP SELECTORS */}
-          <div id="stop-selectors">
-          <FormControl fullWidth>
-            <InputLabel id="stop-1-label">Stop 1</InputLabel>
-            <Select 
-              labelId="stop-1-label"
-              id="stop-1"
-              value={stop1}
-              label="Stop 1"
-              onChange={handleStop1Change}
-              classes={{icon:classes.icon}}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
-              <MenuItem value="Retail Store">Clothing Store</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel id="stop-2-label">Stop 2</InputLabel>
-            <Select 
-              labelId="stop-2-label"
-              id="stop-2"
-              value={stop2}
-              label="Stop 2"
-              onChange={handleStop2Change}
-              classes={{icon:classes.icon}}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
-              <MenuItem value="Retail Store">Clothing Store</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel id="stop-3-label">Stop 3</InputLabel>
-            <Select 
-              labelId="stop-3-label"
-              id="stop-3"
-              value={stop3}
-              label="Stop 3"
-              onChange={handleStop3Change}
-              classes={{icon:classes.icon}}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="Grocery Store">Grocery Store</MenuItem>
-              <MenuItem value="Liquor Store">Liquor Store</MenuItem>
-              <MenuItem value="Retail Store">Clothing Store</MenuItem>
-            </Select>
-          </FormControl>
-          </div>
-          {/* STOP SELECTORS END */}
+          {/* LOCATION/DESTINATION INPUTS END */}         
 
           <Button
             variant="outlined"
@@ -249,11 +169,5 @@ function Input(props) {
   );
 }
 
-// Styles for the select arrow icons
-const useStyles = makeStyles((theme) => ({
-  icon: {
-      marginLeft: 190,
-  }
-}));
 
 export default Input;

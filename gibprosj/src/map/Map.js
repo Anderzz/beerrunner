@@ -1,6 +1,8 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useEffect, useRef } from "react";
 import * as turf from "@turf/turf";
+import WineLogo from "../static/images/Vinmonopolets_logo.jpg";
+import RemaLogo from "../static/images/rema1000_logo.png";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -8,6 +10,7 @@ const MAPBOX_TOKEN =
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 function MapContainer(props) {
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [longitude, setLongitude] = useState(10.39489098946541);
@@ -24,22 +27,15 @@ function MapContainer(props) {
     })
   }, [])
 
-  //Called whenever create route butten is pushed
+  //Called whenever create route button is pushed
   useEffect(async () => {
 
     const location = props.inputs[0]
     const destination = props.inputs[props.inputs.length-1]
-    const category1 = props.inputs[1]
-    const category2 = props.inputs[2]
-    const category3 = props.inputs[3]
-
-    const stop1Points = pointData.filter(object => object.category === category1)
-    const stop2Points = pointData.filter(object => object.category === category2)
-    const stop3Points = pointData.filter(object => object.category === category3)
 
     try {
-    
-      const points = [location, stop1Points, stop2Points, stop3Points, destination]
+
+      const points = [location, destination]
       //create a route out of the added points
       createRoute(points);
 
@@ -84,6 +80,7 @@ function MapContainer(props) {
     //the source of the layer
     const routes = turf.featureCollection([]);
 
+    // Grocery Store Layer
     map.current.addSource("route", {
       type: "geojson",
       data: routes,
@@ -99,7 +96,30 @@ function MapContainer(props) {
           "line-cap": "round",
         },
         paint: {
-          "line-color": "#3887be",
+          "line-color": "#ca9d21",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 12, 3, 22, 12],
+        },
+      },
+      "waterway-label"
+    );
+
+    // Liquor Store Layer
+    map.current.addSource("vin-route", {
+      type: "geojson",
+      data: routes,
+    });
+
+    map.current.addLayer(
+      {
+        id: "routeline-active-wine",
+        type: "line",
+        source: "vin-route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#70005d",
           "line-width": ["interpolate", ["linear"], ["zoom"], 12, 3, 22, 12],
         },
       },
@@ -110,17 +130,19 @@ function MapContainer(props) {
   const getBestPoint = async (routePoints) => {
     const location_coord = routePoints[0].coord.join(",")
     const destination_coord = routePoints[routePoints.length-1].coord.join(",")
-    const stop1Points = routePoints[1]
 
-    let bestPoint;
-    let bestRouteDuration;
+    const groceryData = pointData.filter(obj => obj.category === "Dagligvarehandel")
+    const wineData = pointData.filter(obj => obj.category === "Vinmonopol")
 
-    for (let i = 0; i < stop1Points.length; i++) {
-      const point = stop1Points[i]
+    let bestGroceryPoint;
+    let bestGroceryRouteDuration;
+
+    for (let i = 0; i < groceryData.length; i++) {
+      const point = groceryData[i]
       const coord = point.lng+","+point.lat
 
       const api_coords = [location_coord, coord, destination_coord]
-      
+
       await fetch(OptimizationAPI(api_coords))
       .then((response) => response.json())
       .then((data) => {
@@ -128,53 +150,103 @@ function MapContainer(props) {
         const routeDuration = data.trips[0].duration;
 
         if (i === 0) {
-          bestRouteDuration = routeDuration
-          bestPoint = stop1Points[i]
+          bestGroceryRouteDuration = routeDuration
+          bestGroceryPoint = groceryData[i]
         }
 
         else {
-          if (data.trips[0].duration < bestRouteDuration) {
-            bestRouteDuration = routeDuration
-            bestPoint = stop1Points[i]
+          if (data.trips[0].duration < bestGroceryRouteDuration) {
+            bestGroceryRouteDuration = routeDuration
+            bestGroceryPoint = pointData[i]
           }
         }
       });
-
     }
 
-    const bestPointCoord = bestPoint.lng+","+bestPoint.lat;
-    const displayRoute = [location_coord, bestPointCoord,destination_coord]
+    let bestWinePoint;
+    let bestWineRouteDuration;
 
-    return displayRoute
+    for (let i = 0; i < wineData.length; i++) {
+      const point = wineData[i]
+      const coord = point.lng+","+point.lat
+
+      const api_coords = [location_coord, coord, destination_coord]
+
+      await fetch(OptimizationAPI(api_coords))
+      .then((response) => response.json())
+      .then((data) => {
+
+        const routeDuration = data.trips[0].duration;
+
+        if (i === 0) {
+          bestWineRouteDuration = routeDuration
+          bestWinePoint = wineData[i]
+        }
+
+        else {
+          if (data.trips[0].duration < bestWineRouteDuration) {
+            bestWineRouteDuration = routeDuration
+            bestWinePoint = wineData[i]
+          }
+        }
+      });
+    }
+
+    const bestGroceryPointCoord = bestGroceryPoint.lng+","+bestGroceryPoint.lat;
+    const displayRouteGrocery = [location_coord, bestGroceryPointCoord, destination_coord]
+
+    const bestWinePointCoord = bestWinePoint.lng+","+bestWinePoint.lat;
+    const displayRouteWine = [location_coord, bestWinePointCoord, destination_coord]
+
+    console.log(bestWinePointCoord)
+    console.log(displayRouteWine)
+
+    //Returns optimal route for beer and wine runs
+    return [displayRouteGrocery, displayRouteWine]
   }
 
 
   const createRoute = async (routePoints) => {
 
-    const displayRoute = await getBestPoint(routePoints)
+    const displayRoutes = await getBestPoint(routePoints)
 
-    for await (const coordinates of displayRoute) {
+    const groceryRoute = displayRoutes[0]
+    const wineRoute = displayRoutes[1]
 
-      const lng = coordinates.split(",")[0]
-      const lat = coordinates.split(",")[1]
+    console.log(groceryRoute)
 
-      const coordJSON = {
-        lng: lng, 
-        lat: lat
-      }
+    // Add grocery marker
+    new mapboxgl.Marker(
+      CustomMarker("Dagligvarehandel")
+    ).setLngLat({
+      lat: groceryRoute[1].split(",")[1],
+      lng: groceryRoute[1].split(",")[0]
+    }).addTo(map.current);
 
-      new mapboxgl.Marker({
-        draggable: false,
-      }).setLngLat(coordJSON).addTo(map.current);
-    }
-
-    fetch(OptimizationAPI(displayRoute))
+    // Add wine marker
+    new mapboxgl.Marker(
+      CustomMarker("Vinmonopol")
+    ).setLngLat({
+      lat: wineRoute[1].split(",")[1],
+      lng: wineRoute[1].split(",")[0]
+    }).addTo(map.current);
+  
+    fetch(OptimizationAPI(displayRoutes[0]))
       .then((response) => response.json())
       .then((data) => {
         const routeGeoJSON = turf.featureCollection([
           turf.feature(data.trips[0].geometry),
         ]);
         map.current.getSource("route").setData(routeGeoJSON);
+      });
+
+    fetch(OptimizationAPI(displayRoutes[1]))
+      .then((response) => response.json())
+      .then((data) => {
+        const routeGeoJSON = turf.featureCollection([
+          turf.feature(data.trips[0].geometry),
+        ]);
+        map.current.getSource("vin-route").setData(routeGeoJSON);
       });
   };
 
@@ -188,10 +260,28 @@ function MapContainer(props) {
 export default MapContainer;
 
 
-//Returns the Optimization API string for coordinates "coord"
+// Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coordList) {
   let coordString = "";
   coordString = coordList.join(";");
   return `https://api.mapbox.com/optimized-trips/v1/mapbox/walking/${coordString}?overview=full&steps=true&geometries=geojson&source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`;
 }
 
+// Creates a custom marker
+function CustomMarker(type) {
+
+  const el = document.createElement('div');
+  el.className = "custom-marker";
+
+  if (type === "Dagligvarehandel") {
+    el.style.backgroundImage = "url(https://network.bellona.org/content/uploads/sites/2/2016/02/REMA-1000-logo-2-linjer_Farge-1024x641.png)";
+  }
+
+  else {
+    el.style.backgroundImage = "url(https://upload.wikimedia.org/wikipedia/commons/d/d8/Vinmonopolets_logo.jpg)"; 
+  }
+
+  return el;
+
+
+}
