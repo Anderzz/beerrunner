@@ -1,8 +1,6 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useEffect, useRef } from "react";
 import * as turf from "@turf/turf";
-import WineLogo from "../static/images/Vinmonopolets_logo.jpg";
-import RemaLogo from "../static/images/rema1000_logo.png";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -197,9 +195,6 @@ function MapContainer(props) {
 
     const bestWinePointCoord = bestWinePoint.lng+","+bestWinePoint.lat;
     const displayRouteWine = [location_coord, bestWinePointCoord, destination_coord]
-
-    console.log(bestWinePointCoord)
-    console.log(displayRouteWine)
 
     //Returns optimal route for beer and wine runs
     return [displayRouteGrocery, displayRouteWine]
