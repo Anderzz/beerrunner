@@ -158,7 +158,11 @@ function MapContainer(props) {
             bestGroceryPoint = pointData[i]
           }
         }
-      });
+      }).catch(error => {
+        console.log(error)
+      })
+      
+      ;
     }
 
     let bestWinePoint;
@@ -277,6 +281,5 @@ function CustomMarker(type) {
   }
 
   return el;
-
 
 }
