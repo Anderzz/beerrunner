@@ -21,7 +21,7 @@ function App() {
       <Input sendDataToParent={sendDataToParent} />
       <MapContainer inputs={input} />
       <AddPoints visible={ShowPointInput} />
-      {hidden && <PointInput />}
+      {hidden && <PointInput visible={ShowPointInput} />}
     </div>
   );
 }
