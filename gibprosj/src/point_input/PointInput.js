@@ -30,7 +30,7 @@ function PointInput(props) {
 
   return (
     <div id="pointinput">
-      <p> Add your point </p>
+      <h2 id="point-input-header"> Add your point </h2>
       <div id="pointinputlabels">
         <TextField label="Butikk" onChange={(e) => setLabel(e.target.value)} />
         <TextField
