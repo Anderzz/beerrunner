@@ -2,13 +2,17 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 function PointInput() {
+  const PointCreater = () => {};
+
   return (
     <div id="pointinput">
-      <p> Add your point </p>
+      <h2 id="point-input-header"> Add your point </h2>
       <div id="pointinputlabels">
         <TextField label="Latitude" />
         <TextField label="longitude" />
-        <Button variant="outlined">Add point</Button>
+        <Button variant="outlined" onClick={PointCreater}>
+          Add point
+        </Button>
       </div>
     </div>
   );
