@@ -16,7 +16,7 @@ category_choices = (
 
 class Point(models.Model):
     #id = models.IntegerField(read_only=True)
-    created = models.DateTimeField(auto_now_add=True)
+    #created = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=100, choices=category_choices, default=grocery)
     label = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=200, blank=True)
