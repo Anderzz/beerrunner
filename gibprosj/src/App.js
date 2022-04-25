@@ -20,7 +20,7 @@ function App() {
     <div className="app">
       <Input sendDataToParent={sendDataToParent} />
       <MapContainer inputs={input} />
-      <AddPoints potet={ShowPointInput} />
+      <AddPoints visible={ShowPointInput} />
       {hidden && <PointInput />}
     </div>
   );

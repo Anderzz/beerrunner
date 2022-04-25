@@ -7,7 +7,7 @@ import { point } from "@turf/turf";
 
 function AddPoints(props) {
   const ShowInputField = () => {
-    props.potet();
+    props.visible();
   };
   return (
     <div id="AddPointsButton">
