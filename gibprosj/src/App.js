@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
+import "./static/css/App.css";
 import Input from "./input/Input";
 import MapContainer from "./map/Map";
 import AddPoints from "./add_points/AddPoints";
