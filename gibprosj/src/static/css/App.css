@@ -36,26 +36,45 @@
 
 /* Add point input field */
 
+#point-input-header {
+  color: Black;
+  border-bottom: 2px solid black;
+  margin-top: -5px;
+}
+
 #pointinput {
   position: absolute;
 
   width: 225px;
-  height: 320px;
+  height: 280px;
   border-radius: 20px;
-  border: 3px solid black;
+  border: 1px solid black;
   padding: 10px;
   margin: 10px;
   background-color: white;
-  top: 30px;
+  top: 20px;
   left: 77%;
+  text-shadow: #bfffba;
 }
 
 #pointinputlabels {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 150px;
+  height: 240px;
+}
+
+#button-point-input {
+  margin-top: 10px;
+  border: 1.5px solid green;
+  border-radius: 5px;
+  background-color: #bfffba;
+}
+
+#close-point-input {
+  margin-left: 77%;
+  margin-top: -13%;
 }
 
 /* Add point input field END */
