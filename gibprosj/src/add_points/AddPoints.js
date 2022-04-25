@@ -6,8 +6,11 @@ import { useState } from "react";
 import { point } from "@turf/turf";
 
 function AddPoints(props) {
-  const ShowInputField = () => {
-    props.visible();
+  const ShowInputFieldWine = () => {
+    props.ShowPointInput("Vinmonopol");
+  };
+  const ShowInputFieldBeer = () => {
+    props.ShowPointInput("Dagligvarehandel");
   };
   return (
     <div id="AddPointsButton">
@@ -15,12 +18,12 @@ function AddPoints(props) {
         <SpeedDialAction
           icon={<LocalDrinkIcon />}
           tooltipTitle="Beer"
-          onClick={ShowInputField}
+          onClick={ShowInputFieldBeer}
         />
         <SpeedDialAction
           icon={<LocalBarIcon />}
-          tooltipTitle="Liqure Store"
-          onClick={ShowInputField}
+          tooltipTitle="Liquor Store"
+          onClick={ShowInputFieldWine}
         />
       </SpeedDial>
     </div>

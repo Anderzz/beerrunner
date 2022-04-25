@@ -3,32 +3,78 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 
 function PointInput(props) {
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
+  const [label, setLabel] = useState("");
+  const [description, setDescription] = useState("");
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const addPointToDb = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: props.category,
+        label: label,
+        description: description,
+        lat: lat,
+        lng: lng,
+      }),
+    };
 
-  const PointInputValues = () => {
-    props.visible();
+    console.log(props.category, label, description, lat, lng);
+    fetch("http://127.0.0.1:8000/api/points/", requestOptions)
+      .then((response) => response.json())
+      .then((res) => console.log(res));
+
+    props.ShowPointInput();
+  };
+
+  const closePointInput = () => {
+    props.ShowPointInput();
   };
 
   return (
     <div id="pointinput">
-      <h2 id="point-input-header"> Add your point </h2>
+      <h2 id="point-input-header"> Add your point</h2>
+      <div id="close-point-input">
+        <Button size="small" color="error" onClick={closePointInput}>
+          X
+        </Button>
+      </div>
       <div id="pointinputlabels">
         <TextField
+          size="small"
+          label="Butikk"
+          onChange={(e) => setLabel(e.target.value)}
+        />
+
+        <TextField
+          size="small"
+          label="Beskrivelse"
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <TextField
+          size="small"
           label="Latitude"
-          onChange={(event) => {
-            setValue1(event.target.value);
-          }}
+          type="number"
+          onChange={(e) => setLat(e.target.value)}
         />
         <TextField
-          label="longitude"
-          onChange={(event) => {
-            setValue2(event.target.value);
-          }}
+          size="small"
+          label="Longitude"
+          type="number"
+          onChange={(e) => setLng(e.target.value)}
         />
-        <Button variant="outlined" onClick={PointInputValues}>
-          Add point
-        </Button>
+        <div id="button-point-input">
+          <Button
+            fullWidth
+            color="success"
+            onClick={addPointToDb}
+            variant="outlined"
+          >
+            Add point
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -12,16 +12,24 @@ function App() {
   };
 
   const [hidden, setHidden] = useState(false);
-  const ShowPointInput = () => {
+  const [category, setCategory] = useState("");
+  const [label, setLabel] = useState("");
+  const [description, setDescription] = useState("");
+  const ShowPointInput = (category, label, description) => {
     setHidden(!hidden);
+    setCategory(category);
+    setLabel(label);
+    setDescription(description);
   };
 
   return (
     <div className="app">
       <Input sendDataToParent={sendDataToParent} />
       <MapContainer inputs={input} />
-      <AddPoints visible={ShowPointInput} />
-      {hidden && <PointInput visible={ShowPointInput} />}
+      <AddPoints ShowPointInput={ShowPointInput} />
+      {hidden && (
+        <PointInput category={category} ShowPointInput={ShowPointInput} />
+      )}
     </div>
   );
 }
