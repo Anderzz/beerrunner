@@ -8,7 +8,6 @@ const MAPBOX_TOKEN =
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 function MapContainer(props) {
-
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [longitude, setLongitude] = useState(10.39489098946541);
@@ -20,24 +19,23 @@ function MapContainer(props) {
   //Fetch point data
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/points/")
-    .then(response => response.json())
-    .then(data => {
-      setPointData(data);
-    })
-  }, [])
+      .then((response) => response.json())
+      .then((data) => {
+        setPointData(data);
+      });
+  }, []);
+
+  //
 
   //Called whenever create route button is pushed
   useEffect(async () => {
-
-    const location = props.inputs[0]
-    const destination = props.inputs[props.inputs.length-1]
+    const location = props.inputs[0];
+    const destination = props.inputs[props.inputs.length - 1];
 
     try {
-
-      const points = [location, destination]
+      const points = [location, destination];
       //create a route out of the added points
       createRoute(points);
-
     } catch (error) {
       console.log(error);
     }
@@ -64,10 +62,8 @@ function MapContainer(props) {
     map.current.on("click", (event) => {
       const marker = new mapboxgl.Marker({
         draggable: true,
-      })
-        console.log(event)
-        .setLngLat(event.lngLat)
-        .addTo(map.current);
+      });
+      console.log(event).setLngLat(event.lngLat).addTo(map.current);
     });
 
     // Clean up on unmount
@@ -127,21 +123,24 @@ function MapContainer(props) {
   };
 
   const getBestPoint = async (routePoints) => {
-    const location_coord = routePoints[0].coord.join(",")
-    const destination_coord = routePoints[routePoints.length-1].coord.join(",")
+    const location_coord = routePoints[0].coord.join(",");
+    const destination_coord =
+      routePoints[routePoints.length - 1].coord.join(",");
 
-    const groceryData = pointData.filter(obj => obj.category === "Dagligvarehandel")
-    const wineData = pointData.filter(obj => obj.category === "Vinmonopol")
+    const groceryData = pointData.filter(
+      (obj) => obj.category === "Dagligvarehandel"
+    );
+    const wineData = pointData.filter((obj) => obj.category === "Vinmonopol");
 
     let bestGroceryPoint;
     let bestGroceryRouteDuration;
     let bestGroceryRouteDistance;
 
     for (let i = 0; i < groceryData.length; i++) {
-      const point = groceryData[i]
-      const coord = point.lng+","+point.lat
+      const point = groceryData[i];
+      const coord = point.lng + "," + point.lat;
 
-      const api_coords = [location_coord, coord, destination_coord]
+      const api_coords = [location_coord, coord, destination_coord];
 
       await fetch(OptimizationAPI(api_coords))
       .then((response) => response.json())
@@ -162,12 +161,10 @@ function MapContainer(props) {
             bestGroceryRouteDistance = routeDistance
             bestGroceryPoint = pointData[i]
           }
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-      
-      ;
+        }})
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     let bestWinePoint;
@@ -175,10 +172,10 @@ function MapContainer(props) {
     let bestWineRouteDistance;
 
     for (let i = 0; i < wineData.length; i++) {
-      const point = wineData[i]
-      const coord = point.lng+","+point.lat
+      const point = wineData[i];
+      const coord = point.lng + "," + point.lat;
 
-      const api_coords = [location_coord, coord, destination_coord]
+      const api_coords = [location_coord, coord, destination_coord];
 
       await fetch(OptimizationAPI(api_coords))
       .then((response) => response.json())
@@ -199,15 +196,23 @@ function MapContainer(props) {
             bestWineRouteDistance = routeDistance
             bestWinePoint = wineData[i]
           }
-        }
-      });
+        }});
     }
 
-    const bestGroceryPointCoord = bestGroceryPoint.lng+","+bestGroceryPoint.lat;
-    const displayRouteGrocery = [location_coord, bestGroceryPointCoord, destination_coord]
+    const bestGroceryPointCoord =
+      bestGroceryPoint.lng + "," + bestGroceryPoint.lat;
+    const displayRouteGrocery = [
+      location_coord,
+      bestGroceryPointCoord,
+      destination_coord,
+    ];
 
-    const bestWinePointCoord = bestWinePoint.lng+","+bestWinePoint.lat;
-    const displayRouteWine = [location_coord, bestWinePointCoord, destination_coord]
+    const bestWinePointCoord = bestWinePoint.lng + "," + bestWinePoint.lat;
+    const displayRouteWine = [
+      location_coord,
+      bestWinePointCoord,
+      destination_coord,
+    ];
 
     console.log([
       [bestGroceryRouteDuration, bestGroceryRouteDistance], 
@@ -221,11 +226,11 @@ function MapContainer(props) {
 
 
     //Returns optimal route for beer and wine runs
-    return [displayRouteGrocery, displayRouteWine]
-  }
-
+    return [displayRouteGrocery, displayRouteWine];
+  };
 
   const createRoute = async (routePoints) => {
+    const displayRoutes = await getBestPoint(routePoints);
 
     // Remove old markers
     for (const i in markers) {
@@ -284,7 +289,6 @@ function MapContainer(props) {
 
 export default MapContainer;
 
-
 // Returns the Optimization API string for coordinates "coord"
 function OptimizationAPI(coordList) {
   let coordString = "";
@@ -294,18 +298,16 @@ function OptimizationAPI(coordList) {
 
 // Creates a custom marker
 function CustomMarker(type) {
-
-  const el = document.createElement('div');
+  const el = document.createElement("div");
   el.className = "custom-marker";
 
   if (type === "Dagligvarehandel") {
-    el.style.backgroundImage = "url(https://network.bellona.org/content/uploads/sites/2/2016/02/REMA-1000-logo-2-linjer_Farge-1024x641.png)";
-  }
-
-  else {
-    el.style.backgroundImage = "url(https://upload.wikimedia.org/wikipedia/commons/d/d8/Vinmonopolets_logo.jpg)"; 
+    el.style.backgroundImage =
+      "url(https://network.bellona.org/content/uploads/sites/2/2016/02/REMA-1000-logo-2-linjer_Farge-1024x641.png)";
+  } else {
+    el.style.backgroundImage =
+      "url(https://upload.wikimedia.org/wikipedia/commons/d/d8/Vinmonopolets_logo.jpg)";
   }
 
   return el;
-
 }
