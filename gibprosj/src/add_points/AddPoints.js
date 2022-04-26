@@ -13,19 +13,21 @@ function AddPoints(props) {
     props.ShowPointInput("Dagligvarehandel");
   };
   return (
-    <div id="AddPointsButton">
-      <SpeedDial ariaLabel="Navigation speed dial" icon={<SpeedDialIcon />}>
-        <SpeedDialAction
-          icon={<LocalDrinkIcon />}
-          tooltipTitle="Beer"
-          onClick={ShowInputFieldBeer}
-        />
-        <SpeedDialAction
-          icon={<LocalBarIcon />}
-          tooltipTitle="Liquor Store"
-          onClick={ShowInputFieldWine}
-        />
-      </SpeedDial>
+    <div id="AddPointsButtonDiv">
+      <div id="AddPointsButton">
+        <SpeedDial ariaLabel="Navigation speed dial" icon={<SpeedDialIcon />}>
+          <SpeedDialAction
+            icon={<LocalDrinkIcon />}
+            tooltipTitle="Beer"
+            onClick={ShowInputFieldBeer}
+          />
+          <SpeedDialAction
+            icon={<LocalBarIcon />}
+            tooltipTitle="Liquor Store"
+            onClick={ShowInputFieldWine}
+          />
+        </SpeedDial>
+      </div>
     </div>
   );
 }
