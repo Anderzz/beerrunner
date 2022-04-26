@@ -26,10 +26,15 @@
 
 /* AddPointsButton*/
 
-#AddPointsButton {
+#AddPointsButtonDiv {
   position: absolute;
-  margin-top: 28%;
-  margin-left: 93%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  left: 93%;
+  top: -4%;
+
+  height: 100vh;
 }
 
 /* AddPointsButton end*/
@@ -38,8 +43,14 @@
 
 #point-input-header {
   color: Black;
-  border-bottom: 2px solid black;
+  /*border-bottom: 2px solid black;*/
   margin-top: -5px;
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+}
+
+#pointinput:hover {
+  border: 1.5px solid black;
 }
 
 #pointinput {
@@ -74,7 +85,7 @@
 
 #close-point-input {
   margin-left: 77%;
-  margin-top: -13%;
+  margin-top: -15%;
 }
 
 /* Add point input field END */

@@ -36,7 +36,7 @@ function PointInput(props) {
 
   return (
     <div id="pointinput">
-      <h2 id="point-input-header"> Add your point</h2>
+      <p id="point-input-header"> Add your point</p>
       <div id="close-point-input">
         <Button
           title="exit"
