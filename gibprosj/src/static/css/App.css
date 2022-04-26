@@ -152,7 +152,6 @@
 }
 
 #route-info-container {
-  background-color: red;
   width: 90%;
   height: 350px;
   display: flex;
@@ -165,25 +164,38 @@
 }
 
 #route-info-loc-dest {
-  height: 100px;
-  background-color: aqua;
-
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-bottom: 2px solid rgb(221, 221, 221);
 }
 
 #route-info-results {
-  height: 200px;
-  background-color: yellowgreen;
+  height: 180px;
   display: flex;
 }
 
 .route-info-results-container {
   height: 100%;
   width: 50%;
-  background-color: yellow;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.route-info-label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.route-info-value {
+  font-size: 14px;
 }
 
 .vertical-line {
-  border-right: 2px solid rgb(194, 192, 192);
+  border-right: 2px solid rgb(221, 221, 221);
   height: 100%;
 
 }
@@ -203,15 +215,26 @@
   height: 100%;
 }
 
-.custom-marker {
+.custom-marker-beer {
   width: 30px;
   height: 30px;
   background-position: center;
   background-size: 100%;
   background-repeat: no-repeat;
   border-radius: 20%;
-  border: 2px solid white;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("../images/beer_icon.png");
+}
+
+.custom-marker-wine {
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border-radius: 20%;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("../images/wine-icon.png");
 }
 
 /* MAP END */

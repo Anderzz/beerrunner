@@ -220,11 +220,6 @@ function MapContainer(props) {
       destination_coord,
     ];
 
-    console.log([
-      [bestGroceryRouteDuration, bestGroceryRouteDistance],
-      [bestWineRouteDuration, bestWineRouteDistance],
-    ]);
-
     props.sendTripInfoToParent([
       [bestGroceryRouteDuration, bestGroceryRouteDistance],
       [bestWineRouteDuration, bestWineRouteDistance],
@@ -305,11 +300,11 @@ function CustomMarker(type) {
   el.className = "custom-marker";
 
   if (type === "Dagligvarehandel") {
-    el.style.backgroundImage =
-      "url(https://network.bellona.org/content/uploads/sites/2/2016/02/REMA-1000-logo-2-linjer_Farge-1024x641.png)";
-  } else {
-    el.style.backgroundImage =
-      "url(https://upload.wikimedia.org/wikipedia/commons/d/d8/Vinmonopolets_logo.jpg)";
+    el.className = "custom-marker-beer";
+  }
+
+  else {
+    el.className = "custom-marker-wine";
   }
 
   return el;
