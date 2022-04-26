@@ -1,4 +1,4 @@
-[{"pk": 1, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Kongens gate 9", "lat": 59.910135, "lng": 10.741682}},
+[{"pk": 1, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Kongens gate 9", "lat": 63.430360, "lng": 10.393720}},
 {"pk": 2, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Olav Tryggvasons gate 28", "lat": 63.4334098, "lng": 10.3963563}},
 {"pk": 3, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Beddingen 11", "lat": 63.435437, "lng": 10.412606}},
 {"pk": 4, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Gamle Oslovei 1-5", "lat": 63.4070863, "lng": 10.3475411}},
