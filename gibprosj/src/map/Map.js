@@ -66,6 +66,16 @@ function MapContainer(props) {
       console.log(event).setLngLat(event.lngLat).addTo(map.current);
     });
 
+    //add geolocate control
+    map.current.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: false,
+      })
+    );
+
     // Clean up on unmount
     return () => map.current.remove();
   }, []);
@@ -143,25 +153,23 @@ function MapContainer(props) {
       const api_coords = [location_coord, coord, destination_coord];
 
       await fetch(OptimizationAPI(api_coords))
-      .then((response) => response.json())
-      .then((data) => {
+        .then((response) => response.json())
+        .then((data) => {
+          const routeDuration = data.trips[0].duration;
+          const routeDistance = data.trips[0].distance;
 
-        const routeDuration = data.trips[0].duration;
-        const routeDistance = data.trips[0].distance;
-
-        if (i === 0) {
-          bestGroceryRouteDuration = routeDuration
-          bestGroceryRouteDistance = routeDistance
-          bestGroceryPoint = groceryData[i]
-        }
-
-        else {
-          if (data.trips[0].duration < bestGroceryRouteDuration) {
-            bestGroceryRouteDuration = routeDuration
-            bestGroceryRouteDistance = routeDistance
-            bestGroceryPoint = pointData[i]
+          if (i === 0) {
+            bestGroceryRouteDuration = routeDuration;
+            bestGroceryRouteDistance = routeDistance;
+            bestGroceryPoint = groceryData[i];
+          } else {
+            if (data.trips[0].duration < bestGroceryRouteDuration) {
+              bestGroceryRouteDuration = routeDuration;
+              bestGroceryRouteDistance = routeDistance;
+              bestGroceryPoint = pointData[i];
+            }
           }
-        }})
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -178,25 +186,23 @@ function MapContainer(props) {
       const api_coords = [location_coord, coord, destination_coord];
 
       await fetch(OptimizationAPI(api_coords))
-      .then((response) => response.json())
-      .then((data) => {
+        .then((response) => response.json())
+        .then((data) => {
+          const routeDuration = data.trips[0].duration;
+          const routeDistance = data.trips[0].distance;
 
-        const routeDuration = data.trips[0].duration;
-        const routeDistance = data.trips[0].distance;
-
-        if (i === 0) {
-          bestWineRouteDuration = routeDuration
-          bestWineRouteDistance = routeDistance
-          bestWinePoint = wineData[i]
-        }
-
-        else {
-          if (data.trips[0].duration < bestWineRouteDuration) {
-            bestWineRouteDuration = routeDuration
-            bestWineRouteDistance = routeDistance
-            bestWinePoint = wineData[i]
+          if (i === 0) {
+            bestWineRouteDuration = routeDuration;
+            bestWineRouteDistance = routeDistance;
+            bestWinePoint = wineData[i];
+          } else {
+            if (data.trips[0].duration < bestWineRouteDuration) {
+              bestWineRouteDuration = routeDuration;
+              bestWineRouteDistance = routeDistance;
+              bestWinePoint = wineData[i];
+            }
           }
-        }});
+        });
     }
 
     const bestGroceryPointCoord =
@@ -215,15 +221,14 @@ function MapContainer(props) {
     ];
 
     console.log([
-      [bestGroceryRouteDuration, bestGroceryRouteDistance], 
-      [bestWineRouteDuration, bestWineRouteDistance]
-    ])
+      [bestGroceryRouteDuration, bestGroceryRouteDistance],
+      [bestWineRouteDuration, bestWineRouteDistance],
+    ]);
 
     props.sendTripInfoToParent([
-      [bestGroceryRouteDuration, bestGroceryRouteDistance], 
-      [bestWineRouteDuration, bestWineRouteDistance]
-    ])
-
+      [bestGroceryRouteDuration, bestGroceryRouteDistance],
+      [bestWineRouteDuration, bestWineRouteDistance],
+    ]);
 
     //Returns optimal route for beer and wine runs
     return [displayRouteGrocery, displayRouteWine];
@@ -232,32 +237,30 @@ function MapContainer(props) {
   const createRoute = async (routePoints) => {
     // Remove old markers
     for (const i in markers) {
-        markers[i].remove()
+      markers[i].remove();
     }
 
-    const displayRoutes = await getBestPoint(routePoints)
-
-    const groceryRoute = displayRoutes[0]
-    const wineRoute = displayRoutes[1]
+    const groceryRoute = displayRoutes[0];
+    const wineRoute = displayRoutes[1];
 
     // Add grocery marker
-    const beermarker = new mapboxgl.Marker(
-      CustomMarker("Dagligvarehandel")
-    ).setLngLat({
-      lat: groceryRoute[1].split(",")[1],
-      lng: groceryRoute[1].split(",")[0]
-    }).addTo(map.current);
+    const beermarker = new mapboxgl.Marker(CustomMarker("Dagligvarehandel"))
+      .setLngLat({
+        lat: groceryRoute[1].split(",")[1],
+        lng: groceryRoute[1].split(",")[0],
+      })
+      .addTo(map.current);
 
     // Add wine marker
-    const winemarker = new mapboxgl.Marker(
-      CustomMarker("Vinmonopol")
-    ).setLngLat({
-      lat: wineRoute[1].split(",")[1],
-      lng: wineRoute[1].split(",")[0]
-    }).addTo(map.current);
+    const winemarker = new mapboxgl.Marker(CustomMarker("Vinmonopol"))
+      .setLngLat({
+        lat: wineRoute[1].split(",")[1],
+        lng: wineRoute[1].split(",")[0],
+      })
+      .addTo(map.current);
 
-    setMarkers(oldArray => [...oldArray, beermarker])
-    setMarkers(oldArray => [...oldArray, winemarker])
+    setMarkers((oldArray) => [...oldArray, beermarker]);
+    setMarkers((oldArray) => [...oldArray, winemarker]);
 
     fetch(OptimizationAPI(displayRoutes[0]))
       .then((response) => response.json())

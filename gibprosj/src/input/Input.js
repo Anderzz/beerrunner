@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import VisibilityButton from "./VisibilityButton";
+import logo from "../static/images/beer_logo.png";
 
 //Mui stuff
 import TextField from "@mui/material/TextField";
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -11,40 +12,35 @@ import SearchIcon from "@mui/icons-material/Search";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 
-
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-
 function Input(props) {
-
   // Styling
 
   const [location, setLocation] = useState("");
   const [destination, setDestination] = useState("");
 
-  const [routeDisplayed, setRouteDisplayed] = useState(false)
+  const [routeDisplayed, setRouteDisplayed] = useState(false);
 
-  const [ locationQueryMatches, setLocationQueryMatches ] = useState([]);
-  const [ destinationQueryMatches, setDestinationQueryMatches ] = useState([]);
+  const [locationQueryMatches, setLocationQueryMatches] = useState([]);
+  const [destinationQueryMatches, setDestinationQueryMatches] = useState([]);
 
-  const geocodingClient = useRef(null)
+  const geocodingClient = useRef(null);
 
   // Creating a geocoder on first render which can be used later
   useEffect(() => {
     geocodingClient.current = mbxGeocoding({
       accessToken: mapboxgl.accessToken,
     });
-  }, [])
+  }, []);
 
   // Called when more than "limit" words are typed in the location input field
   const handleLocationChange = (event) => {
-
     if (event.target.value.length > 3) {
-
-      console.log("Geocoder API call")
+      console.log("Geocoder API call");
 
       const limit = 5;
 
@@ -58,28 +54,26 @@ function Input(props) {
         .send()
         .then((response) => {
           const match = response.body;
-          
-          let matches = []
+
+          let matches = [];
           for (let i = 0; i < match.features.length; i++) {
             const coordinates = match.features[i].geometry.coordinates;
             const placeName = match.features[i].place_name;
             const place = {
               label: placeName,
               coord: coordinates,
-            }
-            matches.push(place)
+            };
+            matches.push(place);
           }
           setLocationQueryMatches(matches);
-        }); 
+        });
     }
   };
 
   // Called when more than "limit" words are typed in the destination input field
   const handleDestinationChange = (event) => {
-
     if (event.target.value.length > 3) {
-
-      console.log("Geocoder API call")
+      console.log("Geocoder API call");
 
       const limit = 5;
 
@@ -93,7 +87,7 @@ function Input(props) {
         .send()
         .then((response) => {
           const match = response.body;
-          let matches = []
+          let matches = [];
 
           for (let i = 0; i < match.features.length; i++) {
             const coordinates = match.features[i].geometry.coordinates;
@@ -101,8 +95,8 @@ function Input(props) {
             const place = {
               label: placeName,
               coord: coordinates,
-            }
-            matches.push(place)
+            };
+            matches.push(place);
           }
           setDestinationQueryMatches(matches);
         });
@@ -110,16 +104,17 @@ function Input(props) {
   };
 
   const handleSearchOnClick = () => {
-    let points = [location, destination]
+    let points = [location, destination];
     props.sendDataToParent(points);
-    setRouteDisplayed(true)
+    setRouteDisplayed(true);
   };
 
   return (
     <div id="input-container">
       <div id="input-main-body">
         <div id="header">
-          <h4>AtCtB</h4>
+          <img src={logo} height={150} width={150}></img>
+          <h4>BeerRunner</h4>
         </div>
         <div id="input-fields">
           {/* LOCATION/DESTINATION INPUTS */}
@@ -131,13 +126,11 @@ function Input(props) {
               options={locationQueryMatches}
               onInputChange={handleLocationChange}
               onChange={(event, newInput) => {
-                setLocation(newInput)
+                setLocation(newInput);
               }}
-              renderInput={(params) => 
-                <TextField 
-                  {...params}
-                  label="Location"
-                />}
+              renderInput={(params) => (
+                <TextField {...params} label="Location" />
+              )}
             />
             <Autocomplete
               id="autocomplete-to"
@@ -146,17 +139,14 @@ function Input(props) {
               options={destinationQueryMatches}
               onInputChange={handleDestinationChange}
               onChange={(event, newInput) => {
-                setDestination(newInput)
+                setDestination(newInput);
               }}
-              renderInput={(params) => 
-                <TextField 
-                  {...params}
-                  label="Destination"
-                />}
-            
+              renderInput={(params) => (
+                <TextField {...params} label="Destination" />
+              )}
             />
           </div>
-          {/* LOCATION/DESTINATION INPUTS END */}         
+          {/* LOCATION/DESTINATION INPUTS END */}
 
           <Button
             variant="contained"
@@ -201,6 +191,5 @@ function Input(props) {
     </div>
   );
 }
-
 
 export default Input;

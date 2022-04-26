@@ -1,6 +1,8 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 function PointInput(props) {
   const [label, setLabel] = useState("");
@@ -36,20 +38,25 @@ function PointInput(props) {
     <div id="pointinput">
       <p id="point-input-header"> Add your point</p>
       <div id="close-point-input">
-        <Button size="small" color="error" onClick={closePointInput}>
-          X
+        <Button
+          title="exit"
+          size="small"
+          color="error"
+          onClick={closePointInput}
+        >
+          <ExitToAppIcon />
         </Button>
       </div>
       <div id="pointinputlabels">
         <TextField
           size="small"
-          label="Store"
+          label="Business name"
           onChange={(e) => setLabel(e.target.value)}
         />
 
         <TextField
           size="small"
-          label="Description"
+          label="Description (optional)"
           onChange={(e) => setDescription(e.target.value)}
         />
 
