@@ -240,6 +240,8 @@ function MapContainer(props) {
       markers[i].remove();
     }
 
+    const displayRoutes = await getBestPoint(routePoints)
+
     const groceryRoute = displayRoutes[0];
     const wineRoute = displayRoutes[1];
 
