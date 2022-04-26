@@ -15,6 +15,7 @@ function MapContainer(props) {
   const [latitude, setLatitude] = useState(63.42862774248482);
   const [zoom, setZoom] = useState(11);
   const [pointData, setPointData] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
   //Fetch point data
   useEffect(() => {
@@ -134,6 +135,7 @@ function MapContainer(props) {
 
     let bestGroceryPoint;
     let bestGroceryRouteDuration;
+    let bestGroceryRouteDistance;
 
     for (let i = 0; i < groceryData.length; i++) {
       const point = groceryData[i]
@@ -146,15 +148,18 @@ function MapContainer(props) {
       .then((data) => {
 
         const routeDuration = data.trips[0].duration;
+        const routeDistance = data.trips[0].distance;
 
         if (i === 0) {
           bestGroceryRouteDuration = routeDuration
+          bestGroceryRouteDistance = routeDistance
           bestGroceryPoint = groceryData[i]
         }
 
         else {
           if (data.trips[0].duration < bestGroceryRouteDuration) {
             bestGroceryRouteDuration = routeDuration
+            bestGroceryRouteDistance = routeDistance
             bestGroceryPoint = pointData[i]
           }
         }
@@ -167,6 +172,7 @@ function MapContainer(props) {
 
     let bestWinePoint;
     let bestWineRouteDuration;
+    let bestWineRouteDistance;
 
     for (let i = 0; i < wineData.length; i++) {
       const point = wineData[i]
@@ -179,15 +185,18 @@ function MapContainer(props) {
       .then((data) => {
 
         const routeDuration = data.trips[0].duration;
+        const routeDistance = data.trips[0].distance;
 
         if (i === 0) {
           bestWineRouteDuration = routeDuration
+          bestWineRouteDistance = routeDistance
           bestWinePoint = wineData[i]
         }
 
         else {
           if (data.trips[0].duration < bestWineRouteDuration) {
             bestWineRouteDuration = routeDuration
+            bestWineRouteDistance = routeDistance
             bestWinePoint = wineData[i]
           }
         }
@@ -200,6 +209,17 @@ function MapContainer(props) {
     const bestWinePointCoord = bestWinePoint.lng+","+bestWinePoint.lat;
     const displayRouteWine = [location_coord, bestWinePointCoord, destination_coord]
 
+    console.log([
+      [bestGroceryRouteDuration, bestGroceryRouteDistance], 
+      [bestWineRouteDuration, bestWineRouteDistance]
+    ])
+
+    props.sendTripInfoToParent([
+      [bestGroceryRouteDuration, bestGroceryRouteDistance], 
+      [bestWineRouteDuration, bestWineRouteDistance]
+    ])
+
+
     //Returns optimal route for beer and wine runs
     return [displayRouteGrocery, displayRouteWine]
   }
@@ -207,15 +227,18 @@ function MapContainer(props) {
 
   const createRoute = async (routePoints) => {
 
+    // Remove old markers
+    for (const i in markers) {
+        markers[i].remove()
+    }
+
     const displayRoutes = await getBestPoint(routePoints)
 
     const groceryRoute = displayRoutes[0]
     const wineRoute = displayRoutes[1]
 
-    console.log(groceryRoute)
-
     // Add grocery marker
-    new mapboxgl.Marker(
+    const beermarker = new mapboxgl.Marker(
       CustomMarker("Dagligvarehandel")
     ).setLngLat({
       lat: groceryRoute[1].split(",")[1],
@@ -223,13 +246,16 @@ function MapContainer(props) {
     }).addTo(map.current);
 
     // Add wine marker
-    new mapboxgl.Marker(
+    const winemarker = new mapboxgl.Marker(
       CustomMarker("Vinmonopol")
     ).setLngLat({
       lat: wineRoute[1].split(",")[1],
       lng: wineRoute[1].split(",")[0]
     }).addTo(map.current);
-  
+
+    setMarkers(oldArray => [...oldArray, beermarker])
+    setMarkers(oldArray => [...oldArray, winemarker])
+
     fetch(OptimizationAPI(displayRoutes[0]))
       .then((response) => response.json())
       .then((data) => {

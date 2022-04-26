@@ -16,10 +16,23 @@ function App() {
     setHidden(!hidden);
   };
 
+  const [tripInfo, setTripInfo] = useState([[0, 0], [0, 0]]);
+  const sendTripInfoToParent = (info) => {
+    setTripInfo(info)
+    console.log(info)
+  }
+
+
   return (
     <div className="app">
-      <Input sendDataToParent={sendDataToParent} />
-      <MapContainer inputs={input} />
+      <Input 
+        sendDataToParent={sendDataToParent} 
+        tripInfo={tripInfo}
+      />
+      <MapContainer 
+        inputs={input} 
+        sendTripInfoToParent={sendTripInfoToParent}
+      />
       <AddPoints potet={ShowPointInput} />
       {hidden && <PointInput />}
     </div>

@@ -2,6 +2,7 @@
   top: 0;
   left: 0;
   margin: 0;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /* APP */
@@ -80,29 +81,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 }
 
 #input-fields {
-  margin-top: 20px;
+  height: 170px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   width: 80%;
 }
 
 #location-fields {
   height: 120px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#stop-selectors {
-  margin-top: 40px;
-  margin-bottom: 30px;
-  width: 100%;
-  height: 189px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -123,6 +116,45 @@
   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
   background-color: rgb(231, 231, 231);
 }
+
+#route-info-container {
+  background-color: red;
+  width: 90%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+#route-info-container h3 {
+  text-align: center;
+  margin: 5px 0;
+}
+
+#route-info-loc-dest {
+  height: 100px;
+  background-color: aqua;
+
+}
+
+#route-info-results {
+  height: 200px;
+  background-color: yellowgreen;
+  display: flex;
+}
+
+.route-info-results-container {
+  height: 100%;
+  width: 50%;
+  background-color: yellow;
+}
+
+.vertical-line {
+  border-right: 2px solid rgb(194, 192, 192);
+  height: 100%;
+
+}
+
+
 
 /* INPUT END */
 
