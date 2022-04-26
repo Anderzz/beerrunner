@@ -65,6 +65,16 @@ function MapContainer(props) {
       console.log(event).setLngLat(event.lngLat).addTo(map.current);
     });
 
+    //add geolocate control
+    map.current.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: false,
+      })
+    );
+
     // Clean up on unmount
     return () => map.current.remove();
   }, []);
