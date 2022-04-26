@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import VisibilityButton from "./VisibilityButton";
-import logo from "../static/images/beer_logo.png";
+
+import WineIcon from '../../src/static/images/wine-icon.png';
+import BeerIcon from '../../src/static/images/beer_icon.png';
+
 
 //Mui stuff
 import TextField from "@mui/material/TextField";
@@ -113,7 +116,6 @@ function Input(props) {
     <div id="input-container">
       <div id="input-main-body">
         <div id="header">
-          <img src={logo} height={150} width={150}></img>
           <h4>BeerRunner</h4>
         </div>
         <div id="input-fields">
@@ -160,29 +162,29 @@ function Input(props) {
           <h3>Route Info</h3>
           <div id="route-info-loc-dest">
             <div className="route-info-loc-dest-container">
-              <p>Location</p>
-              <h4>{routeDisplayed && location.label}</h4>
+              <p className="route-info-label">Location</p>
+              <p className="route-info-value">{routeDisplayed && location.label}</p>
             </div>
             <div className="route-info-loc-dest-container">
-              <p>Destination</p>
-              <h4>{routeDisplayed && destination.label}</h4>
+              <p className="route-info-label">Destination</p>
+              <p className="route-info-value">{routeDisplayed && destination.label}</p>
             </div>
           </div>
           <div id="route-info-results">
             <div className="route-info-results-container">
-              <img></img>
-              <p>Duration</p>
-              <p>{props.tripInfo[0][0]}</p>
-              <p>Distance</p>
-              <p>{props.tripInfo[0][1]}</p>
+              <img src={BeerIcon} width={68}></img>
+              <p className="route-info-label">Duration</p>
+              <p className="route-info-value">{Math.round(props.tripInfo[0][0])}s</p>
+              <p className="route-info-label">Distance</p>
+              <p className="route-info-value">{Math.round(props.tripInfo[0][1])}m</p>
             </div>
             <div className="vertical-line"></div>
             <div className="route-info-results-container">
-              <img></img>
-              <p>Duration</p>
-              <p>{props.tripInfo[1][0]}</p>
-              <p>Distance</p>
-              <p>{props.tripInfo[1][1]}</p>
+              <img src={WineIcon} width={70}></img>
+              <p className="route-info-label">Duration</p>
+              <p className="route-info-value">{Math.round(props.tripInfo[1][0])}s</p>
+              <p className="route-info-label">Distance</p>
+              <p className="route-info-value">{Math.round(props.tripInfo[1][1])}m</p>
             </div>
           </div>
         </div>
