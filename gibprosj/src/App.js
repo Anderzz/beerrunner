@@ -22,14 +22,25 @@ function App() {
     setDescription(description);
   };
 
+  const [tripInfo, setTripInfo] = useState([[0, 0], [0, 0]]);
+  const sendTripInfoToParent = (info) => {
+    setTripInfo(info)
+    console.log(info)
+  }
+
+
   return (
     <div className="app">
-      <Input sendDataToParent={sendDataToParent} />
-      <MapContainer inputs={input} />
-      <AddPoints ShowPointInput={ShowPointInput} />
-      {hidden && (
-        <PointInput category={category} ShowPointInput={ShowPointInput} />
-      )}
+      <Input 
+        sendDataToParent={sendDataToParent} 
+        tripInfo={tripInfo}
+      />
+      <MapContainer 
+        inputs={input} 
+        sendTripInfoToParent={sendTripInfoToParent}
+      />
+      <AddPoints potet={ShowPointInput} />
+      {hidden && <PointInput />}
     </div>
   );
 }
