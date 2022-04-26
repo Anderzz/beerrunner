@@ -230,8 +230,6 @@ function MapContainer(props) {
   };
 
   const createRoute = async (routePoints) => {
-    const displayRoutes = await getBestPoint(routePoints);
-
     // Remove old markers
     for (const i in markers) {
         markers[i].remove()
