@@ -89,7 +89,12 @@
 }
 
 /* Add point input field END */
-
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 /* INPUT */
 
 #input-container {

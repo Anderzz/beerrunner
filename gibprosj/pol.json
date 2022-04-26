@@ -5,5 +5,7 @@
 {"pk": 5, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "City Lade", "lat": 63.44339935, "lng": 10.44775793161655}},
 {"pk": 6, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Malvik Senter", "lat": 63.419972, "lng": 10.756192}},
 {"pk": 7, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Torgkvartalet", "lat": 63.468984000000006, "lng": 10.92507976047197}},
-{"pk": 8, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Frostasenteret", "lat": 63.5886587, "lng": 10.7403764}}
+{"pk": 8, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Frostasenteret", "lat": 63.5886587, "lng": 10.7403764}},
+{"pk": 9, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Anders Estenstads Vei 16", "lat": 63.424990, "lng": 10.442590}},
+{"pk": 10, "model": "api.Point", "fields": {"category": "Vinmonopol", "label": "Østre Rosten 28", "lat": 63.361910, "lng": 10.378940}}
 ]

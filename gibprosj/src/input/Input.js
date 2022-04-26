@@ -113,8 +113,7 @@ function Input(props) {
     <div id="input-container">
       <div id="input-main-body">
         <div id="header">
-          <img src={logo} height={150} width={150}></img>
-          <h4>BeerRunner</h4>
+          <img src={logo} height={150} width={400} class="center"></img>
         </div>
         <div id="input-fields">
           {/* LOCATION/DESTINATION INPUTS */}
