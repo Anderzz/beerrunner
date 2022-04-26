@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import VisibilityButton from "./VisibilityButton";
+import logo from "../static/images/beer_logo.png";
 
 //Mui stuff
 import TextField from "@mui/material/TextField";
@@ -112,6 +113,7 @@ function Input(props) {
     <div id="input-container">
       <div id="input-main-body">
         <div id="header">
+          <img src={logo} height={150} width={150}></img>
           <h4>BeerRunner</h4>
         </div>
         <div id="input-fields">
