@@ -235,7 +235,7 @@ function MapContainer(props) {
       markers[i].remove();
     }
 
-    const displayRoutes = await getBestPoint(routePoints)
+    const displayRoutes = await getBestPoint(routePoints);
 
     const groceryRoute = displayRoutes[0];
     const wineRoute = displayRoutes[1];
@@ -301,9 +301,7 @@ function CustomMarker(type) {
 
   if (type === "Dagligvarehandel") {
     el.className = "custom-marker-beer";
-  }
-
-  else {
+  } else {
     el.className = "custom-marker-wine";
   }
 
