@@ -108,6 +108,27 @@ function MapContainer(props) {
       "waterway-label"
     );
 
+    map.current.addLayer(
+      {
+        id: 'routearrows',
+        type: 'symbol',
+        source: 'route',
+        layout: {
+          'symbol-placement': 'line',
+          'text-field': '▶',
+          'text-size': ['interpolate', ['linear'], ['zoom'], 12, 24, 22, 60],
+          'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 12, 30, 22, 160],
+          'text-keep-upright': false
+        },
+        paint: {
+          'text-color': '#ca9d21',
+          'text-halo-color': 'hsl(55, 11%, 96%)',
+          'text-halo-width': 3
+        }
+      },
+      'waterway-label'
+    );
+
     // Liquor Store Layer
     map.current.addSource("vin-route", {
       type: "geojson",
@@ -130,16 +151,37 @@ function MapContainer(props) {
       },
       "waterway-label"
     );
+
+    map.current.addLayer(
+      {
+        id: 'routearrows-wine',
+        type: 'symbol',
+        source: 'vin-route',
+        layout: {
+          'symbol-placement': 'line',
+          'text-field': '▶',
+          'text-size': ['interpolate', ['linear'], ['zoom'], 12, 24, 22, 60],
+          'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 12, 30, 22, 160],
+          'text-keep-upright': false
+        },
+        paint: {
+          'text-color': '#70005d',
+          'text-halo-color': 'hsl(55, 11%, 96%)',
+          'text-halo-width': 3
+        }
+      },
+      'waterway-label'
+    );
+    
   };
+
+  
 
   const getBestPoint = async (routePoints) => {
     const location_coord = routePoints[0].coord.join(",");
-    const destination_coord =
-      routePoints[routePoints.length - 1].coord.join(",");
+    const destination_coord = routePoints[routePoints.length - 1].coord.join(",");
 
-    const groceryData = pointData.filter(
-      (obj) => obj.category === "Dagligvarehandel"
-    );
+    const groceryData = pointData.filter((obj) => obj.category === "Dagligvarehandel");
     const wineData = pointData.filter((obj) => obj.category === "Vinmonopol");
 
     let bestGroceryPoint;
@@ -155,6 +197,7 @@ function MapContainer(props) {
       await fetch(OptimizationAPI(api_coords))
         .then((response) => response.json())
         .then((data) => {
+          console.log("Optimization API Call")
           const routeDuration = data.trips[0].duration;
           const routeDistance = data.trips[0].distance;
 
@@ -188,6 +231,7 @@ function MapContainer(props) {
       await fetch(OptimizationAPI(api_coords))
         .then((response) => response.json())
         .then((data) => {
+          console.log("Optimization API Call")
           const routeDuration = data.trips[0].duration;
           const routeDistance = data.trips[0].distance;
 
@@ -240,6 +284,22 @@ function MapContainer(props) {
     const groceryRoute = displayRoutes[0];
     const wineRoute = displayRoutes[1];
 
+    // Add location marker
+    const locationMarker = new mapboxgl.Marker()
+      .setLngLat({
+        lat: groceryRoute[0].split(",")[1],
+        lng: groceryRoute[0].split(",")[0],
+      })
+      .addTo(map.current);
+
+    // Add destination marker
+    const destinationMarker = new mapboxgl.Marker(CustomMarker("Finish"))
+      .setLngLat({
+        lat: groceryRoute[2].split(",")[1],
+        lng: groceryRoute[2].split(",")[0],
+      })
+      .addTo(map.current);
+
     // Add grocery marker
     const beermarker = new mapboxgl.Marker(CustomMarker("Dagligvarehandel"))
       .setLngLat({
@@ -256,12 +316,15 @@ function MapContainer(props) {
       })
       .addTo(map.current);
 
+    setMarkers((oldArray) => [...oldArray, destinationMarker]);
+    setMarkers((oldArray) => [...oldArray, locationMarker]);
     setMarkers((oldArray) => [...oldArray, beermarker]);
     setMarkers((oldArray) => [...oldArray, winemarker]);
 
     fetch(OptimizationAPI(displayRoutes[0]))
       .then((response) => response.json())
       .then((data) => {
+        console.log("Optimization API Call")
         const routeGeoJSON = turf.featureCollection([
           turf.feature(data.trips[0].geometry),
         ]);
@@ -271,6 +334,7 @@ function MapContainer(props) {
     fetch(OptimizationAPI(displayRoutes[1]))
       .then((response) => response.json())
       .then((data) => {
+        console.log("Optimization API Call")
         const routeGeoJSON = turf.featureCollection([
           turf.feature(data.trips[0].geometry),
         ]);
@@ -301,6 +365,10 @@ function CustomMarker(type) {
 
   if (type === "Dagligvarehandel") {
     el.className = "custom-marker-beer";
+  }
+
+  else if (type === "Finish"){
+    el.className = "custom-marker-finish"
   }
 
   else {

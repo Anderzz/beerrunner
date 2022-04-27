@@ -28,7 +28,6 @@ function App() {
   ]);
   const sendTripInfoToParent = (info) => {
     setTripInfo(info);
-    console.log(info);
   };
 
   return (

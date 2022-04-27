@@ -237,4 +237,15 @@
   background-image: url("../images/wine-icon.png");
 }
 
+.custom-marker-finish {
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border-radius: 20%;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("../images/celebration2.png");
+}
+
 /* MAP END */

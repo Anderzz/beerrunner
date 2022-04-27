@@ -157,6 +157,7 @@ function Input(props) {
             Create Route
           </Button>
         </div>
+        {/* ROUTE INFO */}
         <div id="route-info-container">
           <h3>Route Info</h3>
           <div id="route-info-loc-dest">
@@ -199,6 +200,7 @@ function Input(props) {
             </div>
           </div>
         </div>
+        {/* ROUTE INFO END */}
       </div>
       <VisibilityButton />
     </div>
@@ -206,3 +208,4 @@ function Input(props) {
 }
 
 export default Input;
+
