@@ -208,7 +208,7 @@ function Input(props) {
 
 export default Input;
 
-// function to convert seconds to minutes and seconds
+//function to convert seconds to minutes and seconds
 const convertSecondsToMinutesAndSeconds = (seconds) => {
   const minutes = Math.round(seconds / 60);
   const remainingSeconds = Math.round(seconds % 60);
@@ -218,7 +218,7 @@ const convertSecondsToMinutesAndSeconds = (seconds) => {
 //function to convert meters to kilometers and meters
 const convertMetersToKilometersAndMeters = (meters) => {
   if (meters < 1000) {
-    return `${meters}m`;
+    return `${Math.round(meters)}m`;
   }
   const kilometers = Math.round(meters / 1000);
   const remainingMeters = Math.round(meters % 1000);

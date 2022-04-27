@@ -17,7 +17,7 @@
 {"pk": 17, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Gjerlovs veg 2", "lat": 63.3539499, "lng": 10.3796424}},
 {"pk": 18, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Stadsing Dahls gate 5", "lat": 63.4302004, "lng": 10.4194002}},
 {"pk": 19, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kvenildsskogen 3", "lat": 63.334222, "lng": 10.360223}},
-{"pk": 20, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Dyre Halses gate 1 A", "lat": 63.436099, "lng": 10.4035468}},
+{"pk": 20, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Dyre Halses gate 1 A", "lat": 63.436630, "lng": 10.415190}},
 {"pk": 21, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Sorgenfriveien 11", "lat": 63.405420, "lng": 10.399260}},
 {"pk": 22, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Munkegata 22", "lat": 63.4300085, "lng": 10.3947168}},
 {"pk": 23, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Dybdahls vei 5", "lat": 63.412436, "lng": 10.4172733}},
