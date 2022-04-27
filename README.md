@@ -1,6 +1,4 @@
-# tba4250
-
-Prosjekt i Geografisk Informasjonsbehandling 2
+# TBA4250 Project
 
 [Check it out](https://beerrunner.herokuapp.com/)
 
