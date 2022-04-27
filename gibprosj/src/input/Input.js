@@ -10,6 +10,8 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
+import Checkbox from '@mui/material/Checkbox';
+
 
 //Mapbox stuff
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -30,6 +32,19 @@ function Input(props) {
 
   const [locationQueryMatches, setLocationQueryMatches] = useState([]);
   const [destinationQueryMatches, setDestinationQueryMatches] = useState([]);
+
+  const [beerRouteChecked, setBeerRouteChecked] = useState(true)
+  const [wineRouteChecked, setWineRouteChecked] = useState(true)
+
+  const handleBeerRouteChecked = () => {
+    setBeerRouteChecked(!beerRouteChecked)
+    props.showBeerRouteClicked()
+  }
+
+  const handleWineRouteChecked = () => {
+    setWineRouteChecked(!wineRouteChecked)
+    props.showWineRouteClicked()
+  }
 
   const geocodingClient = useRef(null);
 
@@ -157,48 +172,58 @@ function Input(props) {
           </Button>
         </div>
         {/* ROUTE INFO */}
-        <div id="route-info-container">
-          <h3>Route Info</h3>
-          <div id="route-info-loc-dest">
-            <div className="route-info-loc-dest-container">
-              <p className="route-info-label">Location</p>
-              <p className="route-info-value">
-                {routeDisplayed && location.label}
-              </p>
+        {routeDisplayed ? 
+          <div id="route-info-container">
+            <h3>Route Info</h3>
+            <div id="route-info-loc-dest">
+              <div className="route-info-loc-dest-container">
+                <p className="route-info-label">Location</p>
+                <p className="route-info-value">
+                  {routeDisplayed && location.label}
+                </p>
+              </div>
+              <div className="route-info-loc-dest-container">
+                <p className="route-info-label">Destination</p>
+                <p className="route-info-value">
+                  {routeDisplayed && destination.label}
+                </p>
+              </div>
             </div>
-            <div className="route-info-loc-dest-container">
-              <p className="route-info-label">Destination</p>
-              <p className="route-info-value">
-                {routeDisplayed && destination.label}
-              </p>
+            <div id="route-info-results">
+              <div className="route-info-results-container">
+                <img src={BeerIcon} width={68}></img>
+                <Checkbox 
+                  checked={beerRouteChecked}
+                  onChange={handleBeerRouteChecked}
+                />
+                <p className="route-info-label">Duration</p>
+                <p className="route-info-value">
+                  {convertSecondsToMinutesAndSeconds(props.tripInfo[0][0])}
+                </p>
+                <p className="route-info-label">Distance</p>
+                <p className="route-info-value">
+                  {convertMetersToKilometersAndMeters(props.tripInfo[0][1])}
+                </p>
+              </div>
+              <div className="vertical-line"></div>
+              <div className="route-info-results-container">
+                <img src={WineIcon} width={70}></img>
+                <Checkbox 
+                  checked={wineRouteChecked}
+                  onChange={handleWineRouteChecked}
+                />
+                <p className="route-info-label">Duration</p>
+                <p className="route-info-value">
+                  {convertSecondsToMinutesAndSeconds(props.tripInfo[1][0])}
+                </p>
+                <p className="route-info-label">Distance</p>
+                <p className="route-info-value">
+                  {convertMetersToKilometersAndMeters(props.tripInfo[1][1])}
+                </p>
+              </div>
             </div>
           </div>
-          <div id="route-info-results">
-            <div className="route-info-results-container">
-              <img src={BeerIcon} width={68}></img>
-              <p className="route-info-label">Duration</p>
-              <p className="route-info-value">
-                {convertSecondsToMinutesAndSeconds(props.tripInfo[0][0])}
-              </p>
-              <p className="route-info-label">Distance</p>
-              <p className="route-info-value">
-                {convertMetersToKilometersAndMeters(props.tripInfo[0][1])}
-              </p>
-            </div>
-            <div className="vertical-line"></div>
-            <div className="route-info-results-container">
-              <img src={WineIcon} width={70}></img>
-              <p className="route-info-label">Duration</p>
-              <p className="route-info-value">
-                {convertSecondsToMinutesAndSeconds(props.tripInfo[1][0])}
-              </p>
-              <p className="route-info-label">Distance</p>
-              <p className="route-info-value">
-                {convertMetersToKilometersAndMeters(props.tripInfo[1][1])}
-              </p>
-            </div>
-          </div>
-        </div>
+        : <div id="route-info-container"></div>}
         {/* ROUTE INFO END */}
       </div>
       <VisibilityButton />

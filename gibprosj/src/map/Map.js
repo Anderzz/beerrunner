@@ -15,6 +15,8 @@ function MapContainer(props) {
   const [zoom, setZoom] = useState(11);
   const [pointData, setPointData] = useState([]);
   const [markers, setMarkers] = useState([]);
+  const [beerRouteJSON, setBeerRouteJSON] = useState();
+  const [wineRouteJSON, setWineRouteJSON] = useState();
 
   //Fetch point data
   useEffect(() => {
@@ -25,7 +27,28 @@ function MapContainer(props) {
       });
   }, []);
 
-  //
+  //Called whenever show wine/beer route buttons are checked/unchecked
+  useEffect(() => {
+    try {
+      if (props.showBeerRoute) {
+        map.current.getSource("route").setData(beerRouteJSON)
+      }
+  
+      else {
+        map.current.getSource("route").setData(turf.featureCollection([]))
+      }
+  
+      if (props.showWineRoute) {
+        map.current.getSource("vin-route").setData(wineRouteJSON)
+      }
+  
+      else {
+        map.current.getSource("vin-route").setData(turf.featureCollection([]))
+      }
+    } catch (error) {
+
+    }
+  }, [props.showBeerRoute, props.showWineRoute])
 
   //Called whenever create route button is pushed
   useEffect(async () => {
@@ -345,6 +368,7 @@ function MapContainer(props) {
           turf.feature(data.trips[0].geometry),
         ]);
         map.current.getSource("route").setData(routeGeoJSON);
+        setBeerRouteJSON(routeGeoJSON)
       });
 
     fetch(OptimizationAPI(displayRoutes[1]))
@@ -355,6 +379,7 @@ function MapContainer(props) {
           turf.feature(data.trips[0].geometry),
         ]);
         map.current.getSource("vin-route").setData(routeGeoJSON);
+        setWineRouteJSON(routeGeoJSON)
       });
   };
 
