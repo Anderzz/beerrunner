@@ -1,5 +1,5 @@
 [{"pk": 1, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Nedre Bakklandet 56", "lat": 63.4314624, "lng": 10.4063488}},
-{"pk": 2, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Industriveien 13", "lat": 63.349950, "lng": 10.359570}},
+{"pk": 2, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Industriveien 13", "lat": 63.349950, "lng": 10.359570}},   
 {"pk": 3, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Fjellseterveien 1", "lat": 63.4180001, "lng": 10.3518947}},
 {"pk": 4, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Gamle Jonsvannsveien 45", "lat": 63.411647, "lng": 10.4646188}},
 {"pk": 5, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Fossegrenda 44", "lat": 63.3873018, "lng": 10.4082903}},
