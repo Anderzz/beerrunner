@@ -24,7 +24,7 @@
 {"pk": 24, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Klostergata 2", "lat": 63.422270, "lng": 10.398940}},
 {"pk": 25, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Lillebergveien 8", "lat": 63.418970, "lng": 10.430910}},
 {"pk": 26, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Bregneveien 67", "lat": 63.412870, "lng": 10.431350}},
-{"pk": 27, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Nedre Bakklandet 79", "lat": 63.4297618, "lng": 10.4049193}},
+{"pk": 27, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Nedre Bakklandet 79", "lat": 63.4318065, "lng": 10.4078195}},
 {"pk": 28, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kongens gate 30", "lat": 63.430819, "lng": 10.3915936}},
 {"pk": 29, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Munkegaten 48", "lat": 63.432085, "lng": 10.393741}},
 {"pk": 30, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kongens gate 56", "lat": 63.4305611, "lng": 10.387601}},
