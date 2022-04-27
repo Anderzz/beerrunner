@@ -93,10 +93,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'gib',
         'USER': 'postgres',
-        'PASSWORD': '123qwe123qwe',
+        'PASSWORD': 'gibprosjekt',
         'HOST': 'localhost',
         'PORT': '',
-
     }
 }
 db_from_env = dj_database_url.config(conn_max_age=600)
