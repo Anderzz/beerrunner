@@ -178,11 +178,11 @@ function Input(props) {
               <img src={BeerIcon} width={68}></img>
               <p className="route-info-label">Duration</p>
               <p className="route-info-value">
-                {Math.round(props.tripInfo[0][0])}s
+                {convertSecondsToMinutesAndSeconds(props.tripInfo[0][0])}
               </p>
               <p className="route-info-label">Distance</p>
               <p className="route-info-value">
-                {Math.round(props.tripInfo[0][1])}m
+                {convertMetersToKilometersAndMeters(props.tripInfo[0][1])}
               </p>
             </div>
             <div className="vertical-line"></div>
@@ -190,11 +190,11 @@ function Input(props) {
               <img src={WineIcon} width={70}></img>
               <p className="route-info-label">Duration</p>
               <p className="route-info-value">
-                {Math.round(props.tripInfo[1][0])}s
+                {convertSecondsToMinutesAndSeconds(props.tripInfo[1][0])}
               </p>
               <p className="route-info-label">Distance</p>
               <p className="route-info-value">
-                {Math.round(props.tripInfo[1][1])}m
+                {convertMetersToKilometersAndMeters(props.tripInfo[1][1])}
               </p>
             </div>
           </div>
@@ -208,3 +208,19 @@ function Input(props) {
 
 export default Input;
 
+// function to convert seconds to minutes and seconds
+const convertSecondsToMinutesAndSeconds = (seconds) => {
+  const minutes = Math.round(seconds / 60);
+  const remainingSeconds = Math.round(seconds % 60);
+  return `${minutes}m ${remainingSeconds}s`;
+};
+
+//function to convert meters to kilometers and meters
+const convertMetersToKilometersAndMeters = (meters) => {
+  if (meters < 1000) {
+    return `${meters}m`;
+  }
+  const kilometers = Math.round(meters / 1000);
+  const remainingMeters = Math.round(meters % 1000);
+  return `${kilometers}.${remainingMeters}km`;
+};
