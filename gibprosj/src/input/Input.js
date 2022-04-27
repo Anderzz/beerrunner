@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import VisibilityButton from "./VisibilityButton";
+import Header from "../header/Header";
 
 import WineIcon from "../../src/static/images/wine-icon.png";
 import BeerIcon from "../../src/static/images/beer_icon.png";
@@ -114,9 +115,7 @@ function Input(props) {
   return (
     <div id="input-container">
       <div id="input-main-body">
-        <div id="header">
-          <h4>BeerRunner</h4>
-        </div>
+        <Header />
         <div id="input-fields">
           {/* LOCATION/DESTINATION INPUTS */}
           <div id="location-fields">
