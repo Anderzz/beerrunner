@@ -1,38 +1,382 @@
-[{"pk": 1, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Nedre Bakklandet 56", "lat": 63.4314624, "lng": 10.4063488}},
-{"pk": 2, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Industriveien 13", "lat": 63.349950, "lng": 10.359570}},   
-{"pk": 3, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Fjellseterveien 1", "lat": 63.4180001, "lng": 10.3518947}},
-{"pk": 4, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Gamle Jonsvannsveien 45", "lat": 63.411647, "lng": 10.4646188}},
-{"pk": 5, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Fossegrenda 44", "lat": 63.3873018, "lng": 10.4082903}},
-{"pk": 6, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Selsbakkvegen 36", "lat": 63.3888105, "lng": 10.3705362}},
-{"pk": 7, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "John Skaarvolds veg 40", "lat": 63.4090883, "lng": 10.3604179}},
-{"pk": 8, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Mellomila 75", "lat": 63.4314996, "lng": 10.3574733}},
-{"pk": 9, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Jakobsliveien 59 A", "lat": 63.4149676, "lng": 10.4941989}},
-{"pk": 10, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Haakon VII gate 8", "lat": 67.2766769, "lng": 14.3980185}},
-{"pk": 11, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Peder Falcks veg 8", "lat": 63.4377163, "lng": 10.4563852}},
-{"pk": 12, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Rosenborg gate 1", "lat": 63.4342448, "lng": 10.4148577}},
-{"pk": 13, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Sluppenvegen 2", "lat": 63.3987706, "lng": 10.4033852}},
-{"pk": 14, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Havnegata 7", "lat": 63.440580, "lng": 10.403660}},
-{"pk": 15, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Prinsens gate 49", "lat": 63.431850, "lng": 10.392230}},
-{"pk": 16, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Vikelvfaret 2", "lat": 63.4211687, "lng": 10.5344553}},
-{"pk": 17, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Gjerlovs veg 2", "lat": 63.3539499, "lng": 10.3796424}},
-{"pk": 18, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Stadsing Dahls gate 5", "lat": 63.4302004, "lng": 10.4194002}},
-{"pk": 19, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kvenildsskogen 3", "lat": 63.334222, "lng": 10.360223}},
-{"pk": 20, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Dyre Halses gate 1 A", "lat": 63.436630, "lng": 10.415190}},
-{"pk": 21, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Sorgenfriveien 11", "lat": 63.405420, "lng": 10.399260}},
-{"pk": 22, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Munkegata 22", "lat": 63.4300085, "lng": 10.3947168}},
-{"pk": 23, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Dybdahls vei 5", "lat": 63.412436, "lng": 10.4172733}},
-{"pk": 24, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Klostergata 2", "lat": 63.422270, "lng": 10.398940}},
-{"pk": 25, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Lillebergveien 8", "lat": 63.418970, "lng": 10.430910}},
-{"pk": 26, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Bregneveien 67", "lat": 63.412870, "lng": 10.431350}},
-{"pk": 27, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Nedre Bakklandet 79", "lat": 63.4318065, "lng": 10.4078195}},
-{"pk": 28, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kongens gate 30", "lat": 63.430819, "lng": 10.3915936}},
-{"pk": 29, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Munkegaten 48", "lat": 63.432085, "lng": 10.393741}},
-{"pk": 30, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Kongens gate 56", "lat": 63.4305611, "lng": 10.387601}},
-{"pk": 31, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Innherredsveien 80", "lat": 63.436971, "lng": 10.432161}},
-{"pk": 32, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Gamle Oslovei 28", "lat": 63.4110395, "lng": 10.3510818}},
-{"pk": 33, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Stubbsvingen 39", "lat": 63.3912832, "lng": 10.4208051}},
-{"pk": 34, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Rydningen 1", "lat": 63.387600, "lng": 10.352920}},
-{"pk": 35, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Jakobsliveien 7", "lat": 63.4149676, "lng": 10.4941989}},
-{"pk": 36, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Innbrektsflata 1", "lat": 63.3782745, "lng": 10.3644232}},
-{"pk": 37, "model": "api.Point", "fields": {"category": "Dagligvarehandel", "label": "Torvmyra 2", "lat": 63.361860, "lng": 10.389800}}
+[
+  {
+    "pk": 1,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Nedre Bakklandet 56",
+      "lat": 63.4314624,
+      "lng": 10.4063488
+    }
+  },
+  {
+    "pk": 2,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Industriveien 13",
+      "lat": 63.34995,
+      "lng": 10.35957
+    }
+  },
+  {
+    "pk": 3,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Fjellseterveien 1",
+      "lat": 63.4180001,
+      "lng": 10.3518947
+    }
+  },
+  {
+    "pk": 4,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Gamle Jonsvannsveien 45",
+      "lat": 63.411647,
+      "lng": 10.4646188
+    }
+  },
+  {
+    "pk": 5,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Fossegrenda 44",
+      "lat": 63.3873018,
+      "lng": 10.4082903
+    }
+  },
+  {
+    "pk": 6,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Selsbakkvegen 36",
+      "lat": 63.3888105,
+      "lng": 10.3705362
+    }
+  },
+  {
+    "pk": 7,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "John Skaarvolds veg 40",
+      "lat": 63.4090883,
+      "lng": 10.3604179
+    }
+  },
+  {
+    "pk": 8,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Mellomila 75",
+      "lat": 63.4314996,
+      "lng": 10.3574733
+    }
+  },
+  {
+    "pk": 9,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Jakobsliveien 59 A",
+      "lat": 63.4149676,
+      "lng": 10.4941989
+    }
+  },
+  {
+    "pk": 10,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Haakon VII gate 8",
+      "lat": 67.2766769,
+      "lng": 14.3980185
+    }
+  },
+  {
+    "pk": 11,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Peder Falcks veg 8",
+      "lat": 63.4377163,
+      "lng": 10.4563852
+    }
+  },
+  {
+    "pk": 12,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Rosenborg gate 1",
+      "lat": 63.4342448,
+      "lng": 10.4148577
+    }
+  },
+  {
+    "pk": 13,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Sluppenvegen 2",
+      "lat": 63.3987706,
+      "lng": 10.4033852
+    }
+  },
+  {
+    "pk": 14,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Havnegata 7",
+      "lat": 63.44058,
+      "lng": 10.40366
+    }
+  },
+  {
+    "pk": 15,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Prinsens gate 49",
+      "lat": 63.43185,
+      "lng": 10.39223
+    }
+  },
+  {
+    "pk": 16,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Vikelvfaret 2",
+      "lat": 63.4211687,
+      "lng": 10.5344553
+    }
+  },
+  {
+    "pk": 17,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Gjerlovs veg 2",
+      "lat": 63.3539499,
+      "lng": 10.3796424
+    }
+  },
+  {
+    "pk": 18,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Stadsing Dahls gate 5",
+      "lat": 63.4302004,
+      "lng": 10.4194002
+    }
+  },
+  {
+    "pk": 19,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Kvenildsskogen 3",
+      "lat": 63.334222,
+      "lng": 10.360223
+    }
+  },
+  {
+    "pk": 20,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Dyre Halses gate 1 A",
+      "lat": 63.43663,
+      "lng": 10.41519
+    }
+  },
+  {
+    "pk": 21,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Sorgenfriveien 11",
+      "lat": 63.40542,
+      "lng": 10.39926
+    }
+  },
+  {
+    "pk": 22,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Munkegata 22",
+      "lat": 63.4300085,
+      "lng": 10.3947168
+    }
+  },
+  {
+    "pk": 23,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Dybdahls vei 5",
+      "lat": 63.412436,
+      "lng": 10.4172733
+    }
+  },
+  {
+    "pk": 24,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Klostergata 2",
+      "lat": 63.42227,
+      "lng": 10.39894
+    }
+  },
+  {
+    "pk": 25,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Lillebergveien 8",
+      "lat": 63.41897,
+      "lng": 10.43091
+    }
+  },
+  {
+    "pk": 26,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Bregneveien 67",
+      "lat": 63.41287,
+      "lng": 10.43135
+    }
+  },
+  {
+    "pk": 27,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Nedre Bakklandet 79",
+      "lat": 63.4318065,
+      "lng": 10.4078195
+    }
+  },
+  {
+    "pk": 28,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Kongens gate 30",
+      "lat": 63.430819,
+      "lng": 10.3915936
+    }
+  },
+  {
+    "pk": 29,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Munkegaten 48",
+      "lat": 63.432085,
+      "lng": 10.393741
+    }
+  },
+  {
+    "pk": 30,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Kongens gate 56",
+      "lat": 63.4305611,
+      "lng": 10.387601
+    }
+  },
+  {
+    "pk": 31,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Innherredsveien 80",
+      "lat": 63.436971,
+      "lng": 10.432161
+    }
+  },
+  {
+    "pk": 32,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Gamle Oslovei 28",
+      "lat": 63.4110395,
+      "lng": 10.3510818
+    }
+  },
+  {
+    "pk": 33,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Stubbsvingen 39",
+      "lat": 63.3912832,
+      "lng": 10.4208051
+    }
+  },
+  {
+    "pk": 34,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Rydningen 1",
+      "lat": 63.3876,
+      "lng": 10.35292
+    }
+  },
+  {
+    "pk": 35,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Jakobsliveien 7",
+      "lat": 63.4149676,
+      "lng": 10.4941989
+    }
+  },
+  {
+    "pk": 36,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Innbrektsflata 1",
+      "lat": 63.3782745,
+      "lng": 10.3644232
+    }
+  },
+  {
+    "pk": 37,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Torvmyra 2",
+      "lat": 63.36186,
+      "lng": 10.3898
+    }
+  },
+  {
+    "pk": 38,
+    "model": "api.Point",
+    "fields": {
+      "category": "Dagligvarehandel",
+      "label": "Olav Tryggvasonsgate X",
+      "lat": 64.4332,
+      "lng": 10.39977
+    }
+  }
 ]
