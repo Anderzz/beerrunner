@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import LoadingScreen from "../loading/LoadingScreen";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -414,17 +415,7 @@ function MapContainer(props) {
   return (
     <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
-      {showLoadingScreen && (
-        <div
-          style={{
-            backgroundColor: "red",
-            width: 100,
-            height: 100,
-            position: "absolute",
-            left: "50%",
-          }}
-        ></div>
-      )}
+      {showLoadingScreen && <LoadingScreen />}
       {showErrorModal && (
         <div>
           <Modal

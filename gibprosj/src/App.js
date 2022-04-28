@@ -4,7 +4,6 @@ import Input from "./input/Input";
 import MapContainer from "./map/Map";
 import AddPoints from "./add_points/AddPoints";
 import PointInput from "./point_input/PointInput";
-import LoadingScreen from "./loading/LoadingScreen";
 
 function App() {
   const [input, setInput] = useState([]);
@@ -58,7 +57,6 @@ function App() {
       />
       <AddPoints ShowPointInput={ShowPointInput} />
       {hidden && <PointInput ShowPointInput={ShowPointInput} />}
-      <LoadingScreen />
     </div>
   );
 }
