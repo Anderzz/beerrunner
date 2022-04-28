@@ -242,9 +242,7 @@ function MapContainer(props) {
     const destination_coord =
       routePoints[routePoints.length - 1].coord.join(",");
 
-    const groceryData = pointData.filter(
-      (obj) => obj.category === "Dagligvarehandel"
-    );
+    const groceryData = pointData.filter((obj) => obj.category === "Dagligvarehandel");
     const wineData = pointData.filter((obj) => obj.category === "Vinmonopol");
 
     let bestGroceryPoint;
@@ -252,27 +250,31 @@ function MapContainer(props) {
     let bestGroceryRouteDistance;
 
     for (let i = 0; i < groceryData.length; i++) {
-      const point = groceryData[i];
-      const coord = point.lng + "," + point.lat;
+      const beerPoint = groceryData[i];
+      const beerCoord = beerPoint.lng + "," + beerPoint.lat;
 
-      const api_coords = [location_coord, coord, destination_coord];
+      const beer_api_coords = [location_coord, beerCoord, destination_coord];
 
-      await fetch(OptimizationAPI(api_coords))
+      await fetch(OptimizationAPI(beer_api_coords))
         .then((response) => response.json())
         .then((data) => {
           console.log("Optimization API Call");
-          const routeDuration = data.trips[0].duration;
-          const routeDistance = data.trips[0].distance;
+          const routeDurationBeer = data.trips[0].duration;
+          const routeDistanceBeer = data.trips[0].distance;
+
+          console.log(i)
+          console.log("Beer point")
+          console.log(data.trips[0])
 
           if (i === 0) {
-            bestGroceryRouteDuration = routeDuration;
-            bestGroceryRouteDistance = routeDistance;
+            bestGroceryRouteDuration = routeDurationBeer;
+            bestGroceryRouteDistance = routeDistanceBeer;
             bestGroceryPoint = groceryData[i];
           } else {
             if (data.trips[0].duration < bestGroceryRouteDuration) {
-              bestGroceryRouteDuration = routeDuration;
-              bestGroceryRouteDistance = routeDistance;
-              bestGroceryPoint = pointData[i];
+              bestGroceryRouteDuration = routeDurationBeer;
+              bestGroceryRouteDistance = routeDistanceBeer;
+              bestGroceryPoint = groceryData[i];
             }
           }
         })
@@ -297,6 +299,10 @@ function MapContainer(props) {
           console.log("Optimization API Call");
           const routeDuration = data.trips[0].duration;
           const routeDistance = data.trips[0].distance;
+
+          console.log(i)
+          console.log("Wine point")
+          console.log(data.trips[0])
 
           if (i === 0) {
             bestWineRouteDuration = routeDuration;
@@ -331,6 +337,8 @@ function MapContainer(props) {
       [bestGroceryRouteDuration, bestGroceryRouteDistance],
       [bestWineRouteDuration, bestWineRouteDistance],
     ]);
+
+    console.log([displayRouteGrocery, displayRouteWine])
 
     //Returns optimal route for beer and wine runs
     return [displayRouteGrocery, displayRouteWine];
