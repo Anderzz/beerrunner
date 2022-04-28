@@ -374,8 +374,8 @@
     "model": "api.Point",
     "fields": {
       "category": "Dagligvarehandel",
-      "label": "Olav Tryggvasonsgate X",
-      "lat": 64.4332,
+      "label": "Olav Tryggvasonsgate 15",
+      "lat": 63.4332,
       "lng": 10.39977
     }
   }

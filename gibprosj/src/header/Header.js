@@ -21,9 +21,9 @@ function Header() {
           type="info"
           effect="solid"
         >
-          1) Skriv inn start- og stopposisjon. {<br />} 2) Trykk på 'CREATE
-          ROUTE'. {<br />} 3) Velg ønsket rute, se nærmere informasjon nede til
-          venstre. {<br />} 4) Kom deg på vors!
+          1) Skriv inn ønsket start- og stopposisjon. {<br />} 2) Trykk på
+          'CREATE ROUTE'. {<br />} 3) Velg ønsket rute, se nærmere informasjon
+          nede til venstre. {<br />} 4) Kom deg på vors!
         </ReactTooltip>
       </div>
     </div>
