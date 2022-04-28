@@ -18,6 +18,8 @@ function MapContainer(props) {
   const [beerRouteJSON, setBeerRouteJSON] = useState();
   const [wineRouteJSON, setWineRouteJSON] = useState();
 
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
+
   //Fetch point data
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/points/")
@@ -313,79 +315,89 @@ function MapContainer(props) {
   };
 
   const createRoute = async (routePoints) => {
+
+    setShowLoadingScreen(true);
+
     // Remove old markers
     for (const i in markers) {
       markers[i].remove();
     }
 
-    const displayRoutes = await getBestPoint(routePoints);
+    try {
+      const displayRoutes = await getBestPoint(routePoints);
+      const groceryRoute = displayRoutes[0];
+      const wineRoute = displayRoutes[1];
 
-    const groceryRoute = displayRoutes[0];
-    const wineRoute = displayRoutes[1];
+      // Add location marker
+      const locationMarker = new mapboxgl.Marker()
+        .setLngLat({
+          lat: groceryRoute[0].split(",")[1],
+          lng: groceryRoute[0].split(",")[0],
+        })
+        .addTo(map.current);
 
-    // Add location marker
-    const locationMarker = new mapboxgl.Marker()
-      .setLngLat({
-        lat: groceryRoute[0].split(",")[1],
-        lng: groceryRoute[0].split(",")[0],
-      })
-      .addTo(map.current);
+      // Add destination marker
+      const destinationMarker = new mapboxgl.Marker(CustomMarker("Finish"))
+        .setLngLat({
+          lat: groceryRoute[2].split(",")[1],
+          lng: groceryRoute[2].split(",")[0],
+        })
+        .addTo(map.current);
 
-    // Add destination marker
-    const destinationMarker = new mapboxgl.Marker(CustomMarker("Finish"))
-      .setLngLat({
-        lat: groceryRoute[2].split(",")[1],
-        lng: groceryRoute[2].split(",")[0],
-      })
-      .addTo(map.current);
+      // Add grocery marker
+      const beermarker = new mapboxgl.Marker(CustomMarker("Dagligvarehandel"))
+        .setLngLat({
+          lat: groceryRoute[1].split(",")[1],
+          lng: groceryRoute[1].split(",")[0],
+        })
+        .addTo(map.current);
 
-    // Add grocery marker
-    const beermarker = new mapboxgl.Marker(CustomMarker("Dagligvarehandel"))
-      .setLngLat({
-        lat: groceryRoute[1].split(",")[1],
-        lng: groceryRoute[1].split(",")[0],
-      })
-      .addTo(map.current);
+      // Add wine marker
+      const winemarker = new mapboxgl.Marker(CustomMarker("Vinmonopol"))
+        .setLngLat({
+          lat: wineRoute[1].split(",")[1],
+          lng: wineRoute[1].split(",")[0],
+        })
+        .addTo(map.current);
 
-    // Add wine marker
-    const winemarker = new mapboxgl.Marker(CustomMarker("Vinmonopol"))
-      .setLngLat({
-        lat: wineRoute[1].split(",")[1],
-        lng: wineRoute[1].split(",")[0],
-      })
-      .addTo(map.current);
+      setMarkers((oldArray) => [...oldArray, destinationMarker]);
+      setMarkers((oldArray) => [...oldArray, locationMarker]);
+      setMarkers((oldArray) => [...oldArray, beermarker]);
+      setMarkers((oldArray) => [...oldArray, winemarker]);
 
-    setMarkers((oldArray) => [...oldArray, destinationMarker]);
-    setMarkers((oldArray) => [...oldArray, locationMarker]);
-    setMarkers((oldArray) => [...oldArray, beermarker]);
-    setMarkers((oldArray) => [...oldArray, winemarker]);
+      fetch(OptimizationAPI(displayRoutes[0]))
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Optimization API Call");
+          const routeGeoJSON = turf.featureCollection([
+            turf.feature(data.trips[0].geometry),
+          ]);
+          map.current.getSource("route").setData(routeGeoJSON);
+          setBeerRouteJSON(routeGeoJSON)
+        });
 
-    fetch(OptimizationAPI(displayRoutes[0]))
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Optimization API Call");
-        const routeGeoJSON = turf.featureCollection([
-          turf.feature(data.trips[0].geometry),
-        ]);
-        map.current.getSource("route").setData(routeGeoJSON);
-        setBeerRouteJSON(routeGeoJSON)
-      });
+      fetch(OptimizationAPI(displayRoutes[1]))
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Optimization API Call");
+          const routeGeoJSON = turf.featureCollection([
+            turf.feature(data.trips[0].geometry),
+          ]);
+          map.current.getSource("vin-route").setData(routeGeoJSON);
+          setWineRouteJSON(routeGeoJSON)
+        });
+      } catch {
+        console.log("Create error modal!!!")
+      }
 
-    fetch(OptimizationAPI(displayRoutes[1]))
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Optimization API Call");
-        const routeGeoJSON = turf.featureCollection([
-          turf.feature(data.trips[0].geometry),
-        ]);
-        map.current.getSource("vin-route").setData(routeGeoJSON);
-        setWineRouteJSON(routeGeoJSON)
-      });
+     setShowLoadingScreen(false)
+      
   };
 
   return (
     <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
+      {showLoadingScreen && <div style={{backgroundColor: "red", width: 100, height: 100, position: "absolute", left: "50%"}}></div>}
     </div>
   );
 }
