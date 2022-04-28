@@ -57,6 +57,9 @@ function Input(props) {
 
   // Called when more than "limit" words are typed in the location input field
   const handleLocationChange = (event) => {
+
+    setLocation(event.target.value)
+    
     if (event.target.value.length > 3) {
       console.log("Geocoder API call");
 
@@ -90,6 +93,9 @@ function Input(props) {
 
   // Called when more than "limit" words are typed in the destination input field
   const handleDestinationChange = (event) => {
+
+    setDestination(event.target.value)
+
     if (event.target.value.length > 3) {
       console.log("Geocoder API call");
 
@@ -125,6 +131,7 @@ function Input(props) {
     let points = [location, destination];
     props.sendDataToParent(points);
     setRouteDisplayed(true);
+  
   };
 
   return (

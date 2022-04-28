@@ -22,6 +22,7 @@ function MapContainer(props) {
   const [markers, setMarkers] = useState([]);
   const [beerRouteJSON, setBeerRouteJSON] = useState();
   const [wineRouteJSON, setWineRouteJSON] = useState();
+  const [n, setN] = useState(0);
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
@@ -76,13 +77,15 @@ function MapContainer(props) {
     const location = props.inputs[0];
     const destination = props.inputs[props.inputs.length - 1];
 
-    try {
+    if (n > 0) {
       const points = [location, destination];
       //create a route out of the added points
       createRoute(points);
-    } catch (error) {
-      console.log(error);
     }
+    else {
+      setN(n + 1)
+    }
+
   }, [props.inputs]);
 
   // initialize map when componenet mounts
@@ -334,7 +337,6 @@ function MapContainer(props) {
   };
 
   const createRoute = async (routePoints) => {
-    setShowLoadingScreen(true);
 
     // Remove old markers
     for (const i in markers) {
@@ -342,6 +344,9 @@ function MapContainer(props) {
     }
 
     try {
+
+      setShowLoadingScreen(true);
+
       const displayRoutes = await getBestPoint(routePoints);
       const groceryRoute = displayRoutes[0];
       const wineRoute = displayRoutes[1];
@@ -405,8 +410,9 @@ function MapContainer(props) {
           setWineRouteJSON(routeGeoJSON);
         });
     } catch {
-      setShowErrorModal(true);
-      handleOpen();
+        console.log("Catch")
+        setShowErrorModal(true);
+        handleOpen();
     }
 
     setShowLoadingScreen(false);
