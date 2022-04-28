@@ -1,6 +1,10 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useEffect, useRef } from "react";
 import * as turf from "@turf/turf";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiYW5kZXJ6IiwiYSI6ImNremZod2Z4MDByNXQydm55NmJtN24yNzgifQ.zR-oZIQ3MYpPVl-mlOtxkw";
@@ -20,6 +24,26 @@ function MapContainer(props) {
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
+  //error modal
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const stylergutt = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    //bgcolor: "warning.main",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  //end error modal
+
   //Fetch point data
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/points/")
@@ -33,24 +57,18 @@ function MapContainer(props) {
   useEffect(() => {
     try {
       if (props.showBeerRoute) {
-        map.current.getSource("route").setData(beerRouteJSON)
+        map.current.getSource("route").setData(beerRouteJSON);
+      } else {
+        map.current.getSource("route").setData(turf.featureCollection([]));
       }
-  
-      else {
-        map.current.getSource("route").setData(turf.featureCollection([]))
-      }
-  
-      if (props.showWineRoute) {
-        map.current.getSource("vin-route").setData(wineRouteJSON)
-      }
-  
-      else {
-        map.current.getSource("vin-route").setData(turf.featureCollection([]))
-      }
-    } catch (error) {
 
-    }
-  }, [props.showBeerRoute, props.showWineRoute])
+      if (props.showWineRoute) {
+        map.current.getSource("vin-route").setData(wineRouteJSON);
+      } else {
+        map.current.getSource("vin-route").setData(turf.featureCollection([]));
+      }
+    } catch (error) {}
+  }, [props.showBeerRoute, props.showWineRoute]);
 
   //Called whenever create route button is pushed
   useEffect(async () => {
@@ -315,7 +333,6 @@ function MapContainer(props) {
   };
 
   const createRoute = async (routePoints) => {
-
     setShowLoadingScreen(true);
 
     // Remove old markers
@@ -373,7 +390,7 @@ function MapContainer(props) {
             turf.feature(data.trips[0].geometry),
           ]);
           map.current.getSource("route").setData(routeGeoJSON);
-          setBeerRouteJSON(routeGeoJSON)
+          setBeerRouteJSON(routeGeoJSON);
         });
 
       fetch(OptimizationAPI(displayRoutes[1]))
@@ -384,20 +401,54 @@ function MapContainer(props) {
             turf.feature(data.trips[0].geometry),
           ]);
           map.current.getSource("vin-route").setData(routeGeoJSON);
-          setWineRouteJSON(routeGeoJSON)
+          setWineRouteJSON(routeGeoJSON);
         });
-      } catch {
-        console.log("Create error modal!!!")
-      }
+    } catch {
+      setShowErrorModal(true);
+      handleOpen();
+    }
 
-     setShowLoadingScreen(false)
-      
+    setShowLoadingScreen(false);
   };
 
   return (
     <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
-      {showLoadingScreen && <div style={{backgroundColor: "red", width: 100, height: 100, position: "absolute", left: "50%"}}></div>}
+      {showLoadingScreen && (
+        <div
+          style={{
+            backgroundColor: "red",
+            width: 100,
+            height: 100,
+            position: "absolute",
+            left: "50%",
+          }}
+        ></div>
+      )}
+      {showErrorModal && (
+        <div>
+          <Modal
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+          >
+            <Box sx={stylergutt}>
+              <Typography
+                id="keep-mounted-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Error creating route!
+              </Typography>
+              <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+                Press anywhere to try another address.
+              </Typography>
+            </Box>
+          </Modal>
+        </div>
+      )}
     </div>
   );
 }
