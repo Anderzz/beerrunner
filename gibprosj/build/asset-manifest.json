@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.e500ea03.css",
-    "main.js": "/static/js/main.ac0252fa.js",
+    "main.css": "/static/css/main.e15581ec.css",
+    "main.js": "/static/js/main.19ade8b5.js",
+    "static/media/beer_icon.png": "/static/media/beer_icon.f332b82fde8d30169cd4.png",
+    "static/media/wine-icon.png": "/static/media/wine-icon.e988950e0b0040922371.png",
     "index.html": "/index.html",
-    "main.e500ea03.css.map": "/static/css/main.e500ea03.css.map",
-    "main.ac0252fa.js.map": "/static/js/main.ac0252fa.js.map"
+    "main.e15581ec.css.map": "/static/css/main.e15581ec.css.map",
+    "main.19ade8b5.js.map": "/static/js/main.19ade8b5.js.map"
   },
   "entrypoints": [
-    "static/css/main.e500ea03.css",
-    "static/js/main.ac0252fa.js"
+    "static/css/main.e15581ec.css",
+    "static/js/main.19ade8b5.js"
   ]
 }
