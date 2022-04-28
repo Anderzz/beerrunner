@@ -10,8 +10,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
-import Checkbox from '@mui/material/Checkbox';
-
+import Checkbox from "@mui/material/Checkbox";
 
 //Mapbox stuff
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -33,18 +32,18 @@ function Input(props) {
   const [locationQueryMatches, setLocationQueryMatches] = useState([]);
   const [destinationQueryMatches, setDestinationQueryMatches] = useState([]);
 
-  const [beerRouteChecked, setBeerRouteChecked] = useState(true)
-  const [wineRouteChecked, setWineRouteChecked] = useState(true)
+  const [beerRouteChecked, setBeerRouteChecked] = useState(true);
+  const [wineRouteChecked, setWineRouteChecked] = useState(true);
 
   const handleBeerRouteChecked = () => {
-    setBeerRouteChecked(!beerRouteChecked)
-    props.showBeerRouteClicked()
-  }
+    setBeerRouteChecked(!beerRouteChecked);
+    props.showBeerRouteClicked();
+  };
 
   const handleWineRouteChecked = () => {
-    setWineRouteChecked(!wineRouteChecked)
-    props.showWineRouteClicked()
-  }
+    setWineRouteChecked(!wineRouteChecked);
+    props.showWineRouteClicked();
+  };
 
   const geocodingClient = useRef(null);
 
@@ -57,9 +56,8 @@ function Input(props) {
 
   // Called when more than "limit" words are typed in the location input field
   const handleLocationChange = (event) => {
+    setLocation(event.target.value);
 
-    setLocation(event.target.value)
-    
     if (event.target.value.length > 3) {
       console.log("Geocoder API call");
 
@@ -93,8 +91,7 @@ function Input(props) {
 
   // Called when more than "limit" words are typed in the destination input field
   const handleDestinationChange = (event) => {
-
-    setDestination(event.target.value)
+    setDestination(event.target.value);
 
     if (event.target.value.length > 3) {
       console.log("Geocoder API call");
@@ -131,7 +128,6 @@ function Input(props) {
     let points = [location, destination];
     props.sendDataToParent(points);
     setRouteDisplayed(true);
-  
   };
 
   return (
@@ -179,7 +175,7 @@ function Input(props) {
           </Button>
         </div>
         {/* ROUTE INFO */}
-        {routeDisplayed ? 
+        {routeDisplayed ? (
           <div id="route-info-container">
             <h3>Route Info</h3>
             <div id="route-info-loc-dest">
@@ -199,7 +195,7 @@ function Input(props) {
             <div id="route-info-results">
               <div className="route-info-results-container">
                 <img src={BeerIcon} width={68}></img>
-                <Checkbox 
+                <Checkbox
                   checked={beerRouteChecked}
                   onChange={handleBeerRouteChecked}
                 />
@@ -215,7 +211,7 @@ function Input(props) {
               <div className="vertical-line"></div>
               <div className="route-info-results-container">
                 <img src={WineIcon} width={70}></img>
-                <Checkbox 
+                <Checkbox
                   checked={wineRouteChecked}
                   onChange={handleWineRouteChecked}
                 />
@@ -230,7 +226,9 @@ function Input(props) {
               </div>
             </div>
           </div>
-        : <div id="route-info-container"></div>}
+        ) : (
+          <div id="route-info-container"></div>
+        )}
         {/* ROUTE INFO END */}
       </div>
       <VisibilityButton />
