@@ -81,11 +81,9 @@ function MapContainer(props) {
       const points = [location, destination];
       //create a route out of the added points
       createRoute(points);
+    } else {
+      setN(n + 1);
     }
-    else {
-      setN(n + 1)
-    }
-
   }, [props.inputs]);
 
   // initialize map when componenet mounts
@@ -95,6 +93,7 @@ function MapContainer(props) {
       style: "mapbox://styles/mapbox/streets-v9",
       center: [longitude, latitude],
       zoom: zoom,
+      attributionControl: false,
     });
 
     map.current.on("move", () => {
@@ -345,14 +344,12 @@ function MapContainer(props) {
   };
 
   const createRoute = async (routePoints) => {
-
     // Remove old markers
     for (const i in markers) {
       markers[i].remove();
     }
 
     try {
-
       setShowLoadingScreen(true);
 
       const displayRoutes = await getBestPoint(routePoints);
@@ -418,9 +415,9 @@ function MapContainer(props) {
           setWineRouteJSON(routeGeoJSON);
         });
     } catch {
-        console.log("Catch")
-        setShowErrorModal(true);
-        handleOpen();
+      console.log("Catch");
+      setShowErrorModal(true);
+      handleOpen();
     }
 
     setShowLoadingScreen(false);
