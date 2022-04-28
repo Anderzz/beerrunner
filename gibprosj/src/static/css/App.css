@@ -43,6 +43,54 @@
 
 /* HEADER END */
 
+/* LOADING SCREEN */
+
+#loading-screen {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(74, 73, 73, 0.8);
+
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#loading-screen-rotate {
+  width: 30px;
+  height: 30px;
+  opacity: 100%;
+}
+
+.origin {
+  position: relative;
+
+  -webkit-animation: spin 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+  animation: spin 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+}
+@-webkit-keyframes spin {
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ----- END -------- */
+
 /* AddPointsButton*/
 
 #AddPointsButtonDiv {

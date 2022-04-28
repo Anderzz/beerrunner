@@ -4,6 +4,7 @@ import Input from "./input/Input";
 import MapContainer from "./map/Map";
 import AddPoints from "./add_points/AddPoints";
 import PointInput from "./point_input/PointInput";
+import LoadingScreen from "./loading/LoadingScreen";
 
 function App() {
   const [input, setInput] = useState([]);
@@ -11,16 +12,16 @@ function App() {
     setInput(input);
   };
 
-  const [showWineRoute, setShowWineRoute] = useState(true)
-  const [showBeerRoute, setShowBeerRoute] = useState(true)
+  const [showWineRoute, setShowWineRoute] = useState(true);
+  const [showBeerRoute, setShowBeerRoute] = useState(true);
 
   const showWineRouteClicked = () => {
-    setShowWineRoute(!showWineRoute)
-  }
+    setShowWineRoute(!showWineRoute);
+  };
 
   const showBeerRouteClicked = () => {
-    setShowBeerRoute(!showBeerRoute)
-  }
+    setShowBeerRoute(!showBeerRoute);
+  };
 
   const [hidden, setHidden] = useState(false);
   const [category, setCategory] = useState("");
@@ -43,8 +44,8 @@ function App() {
 
   return (
     <div className="app">
-      <Input 
-        sendDataToParent={sendDataToParent} 
+      <Input
+        sendDataToParent={sendDataToParent}
         tripInfo={tripInfo}
         showWineRouteClicked={showWineRouteClicked}
         showBeerRouteClicked={showBeerRouteClicked}
@@ -53,10 +54,11 @@ function App() {
         inputs={input}
         sendTripInfoToParent={sendTripInfoToParent}
         showBeerRoute={showBeerRoute}
-        showWineRoute={showWineRoute} 
+        showWineRoute={showWineRoute}
       />
       <AddPoints ShowPointInput={ShowPointInput} />
       {hidden && <PointInput ShowPointInput={ShowPointInput} />}
+      <LoadingScreen />
     </div>
   );
 }
